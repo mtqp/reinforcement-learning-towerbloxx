@@ -19,6 +19,9 @@ class Environment(object):
         return (intial_state, final_state)
 
     def make_action(self, action):
+        if not self.correct_action(action):
+            return "UNKNOWN ACTION"
+        
         previous_tower_factor = self.tower_factor
         
         self.update_tower_state(action)
@@ -31,6 +34,9 @@ class Environment(object):
         next_state = self.state()
         reinforcement = self.get_reward(action, previous_tower_factor)
         return (next_state, reinforcement)
+
+    def correct_action(self, action):
+        return action == Environment.THROW or action == Environment.PASS
 
     def get_reward(self, action, comparison_factor):
         reinforcement = 0
@@ -55,23 +61,51 @@ class Environment(object):
     def has_new_floor(self, action):
         has_new_floor = False
         if action == Environment.THROW:
-            drop_offset = abs(self.get_drop_offset())
+            drop_offset = abs(self.get_drop_offset_from_tower())
             has_new_floor = drop_offset <= 10     
         
         return has_new_floor
 
-    def get_drop_offset(self):
+    def get_drop_offset_from_tower(self):
         if self.tower_pos == 0:
             return self.crane_pos
 
+        if self.crane_pos == 0:
+            return self.tower_pos
+
+        same_sign = (self.crane_pos * self.tower_pos) > 0
+
         crane = abs(self.crane_pos)
         tower = abs(self.tower_pos)
-        same_sign = (crane * tower) > 0
         
-        if same_sign:        
-            return crane - tower
+        crane_sgn = cmp(self.crane_pos, 0)
+        
+#       print "crane sgn %d" %crane_sgn
+#       print "abs tower %d" %tower
+#       print "abs crane %d" %crane
+        
+        if same_sign:
+#           print "same sign"
+            return crane_sgn * (crane - tower)
         else:
-            return crane + tower            
+#           print "!= sgin"
+            return crane_sgn * (crane + tower)
+        
+        #el mismo algoritmo pero sin factorizar
+        #if same_sign:        
+         #   if(self.crane_pos < 0):
+                #ambos negativos
+          #      return tower - crane
+           # else:
+                #ambos positivos
+            #    return crane - tower
+        #else:
+         #   if(self.crane_pos < 0): #--> tower_pos > 0
+                #tire a izquierda --> <0
+          #      return -(crane + tower)
+           # else: #--> crane_pos > 0 and tower_pos < 0
+                #tire a derecha --> >0
+            #    return crane + tower            
     
     #PRE: NO se movió el crane           
     def update_tower_state(self, action):
@@ -81,7 +115,7 @@ class Environment(object):
 
     #PRE: El crane cae sobre el edificio
     def update_tower_factor(self):
-        drop_offset = self.get_drop_offset()
+        drop_offset = self.get_drop_offset_from_tower()
      
         if drop_offset != 0: ##sino no modifico el movimiento del edificio
             drop_right = drop_offset > 0 #se si lanzo a izquierda o derecha del ultimo piso
@@ -98,9 +132,9 @@ class Environment(object):
             normalize_offset = abs(drop_offset) / 100.0
             normalize_height = (self.tower_size + 1)/100.0
                         
-            print "drop offset %d" % drop_offset
-            print "normalize_offset %f" % normalize_offset
-            print "tower pos %d" % self.tower_pos
+#           print "drop offset %d" % drop_offset
+#           print "normalize_offset %f" % normalize_offset
+#           print "tower pos %d" % self.tower_pos
             print increase_stability
 
             if increase_stability:
@@ -130,8 +164,11 @@ class Environment(object):
     # --> cmp(0,0) da cero, x lo tanto no podes romper el equilibrio
     def get_speed_sign(self):
         moving = self.tower_vel != 0
-        sgn = (cmp(self.tower_vel,0))
-        if not moving:
+        sgn = 0
+
+        if moving:
+            sgn = cmp(self.tower_vel,0)
+        else:
             sgn = cmp(self.crane_pos, 0)
         return sgn
     
@@ -140,16 +177,24 @@ class Environment(object):
         
         sgn = self.get_speed_sign()
         speed = self.calculate_tower_speed(sgn, self.tower_pos)
-        self.tower_vel = speed * self.tower_factor #int(speed * self.tower_factor)
-        self.tower_pos += self.position_delta() 
+        self.tower_vel = self.round_up_far_from_zero(speed * self.tower_factor)
         
-        print "tower_vel %f" %self.tower_vel
-        print "tower pos %f" %self.tower_pos
-        if abs(self.tower_pos) >= int(49*self.tower_factor): 
-            self.tower_vel = abs(self.tower_vel) * cmp(0,self.tower_pos)
-
-    def position_delta(self):
-        if(self.tower_vel>0):
-           return int(math.ceil(self.tower_factor * self.tower_vel))
+        if(self.tower_factor != 0):
+            self.tower_pos += self.round_up_far_from_zero(self.tower_factor * self.tower_vel)
         else:
-           return int(math.floor(self.tower_factor * self.tower_vel))
+            self.tower_pos = 0
+                
+#       print "tower_vel %f" %self.tower_vel
+#       print "tower pos %f" %self.tower_pos
+        tower_off_boundaries = abs(self.tower_pos) > int(49*self.tower_factor)
+        if tower_off_boundaries: 
+#           print "tower off boundaries"
+            reversed_pos_sgn = cmp(0,self.tower_pos)
+            self.tower_vel = abs(self.tower_vel) * reversed_pos_sgn
+
+    def round_up_far_from_zero(self, value): #--> QUE FEO NOMBRE!!! :P
+        if(value>0):
+           return int(math.ceil(value))
+        else:
+           return int(math.floor(value))    
+   
