@@ -43,23 +43,14 @@ class UI(object):
                 if event.type == pygame.QUIT: sys.exit()
 
             for ui_object in self.ui_objects:
-                print "object " + ui_object.name
-                print "speed " + str(self.speed)
-
                 ui_object.move(self.speed)
                 
-                surface = ui_object.get_surface()
-                rect = surface.get_rect()
-
-                print "left " + str(rect.left)
-                print "right " + str(rect.right)
-                print "top " + str(rect.top)
-                print "bottom " + str(rect.bottom)
+                rect = ui_object.get_rectangle()
                                 
-#               if rect.left <= 0 or rect.right >= self.width:
-#                   self.speed[0] = -self.speed[0]
-#               if rect.top <= 0 or rect.bottom >= self.height:
-#                   self.speed[1] = -self.speed[1]
+                if rect.left < 0 or rect.right > self.width:
+                    self.speed[0] = -self.speed[0]
+                if rect.top < 0 or rect.bottom > self.height:
+                    self.speed[1] = -self.speed[1]
 
             self._refresh_screen()
             
