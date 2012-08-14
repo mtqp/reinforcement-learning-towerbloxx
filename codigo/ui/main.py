@@ -3,37 +3,74 @@
 import sys, pygame
 #from towerbloxx import * 
 
+class UIObject(object):
+    def __init__(self, image_path):
+        self.surface = pygame.image.load(image_path)
+        self.rect = self.surface.get_rect()
+        self.name = image_path
+        
+    def name(self):
+        return self.name
+
+    def get_surface(self):
+        return self.surface
+        
+    def get_rectangle(self):
+        return self.rect
+        
+    def move(self, speed):
+        self.rect = self.rect.move(speed)
+    
+
 class UI(object):
+    BLACK = 0,0,0
+    
     def __init__(self, towerbloxx):
         self.width = 640
         self.height = 480
         self.speed = [2, 2]
         self.size = self.width, self.height
         #self.images = images #ACA VA ALGO O QUE CARAJO?
-        self.images = pygame.image.load("ball.bmp") #esto va a llevar una lista de las cosas q se carguen
+        self.ui_objects = [UIObject("ball.bmp")] #esto va a llevar una lista de las cosas q se carguen
         self.screen = pygame.display.set_mode(self.size)
         self.towerbloxx = towerbloxx #aca va a estar la interaccion con lo que efectivamente hay q visualizar
         
     def show(self):
-        black = 0,0,0
-        
         pygame.init()
 
-        images_rect = self.images.get_rect()
-
         while 1:
-          for event in pygame.event.get():
-              if event.type == pygame.QUIT: sys.exit()
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT: sys.exit()
 
-          images_rect = images_rect.move(self.speed)
-          if images_rect.left < 0 or images_rect.right > self.width:
-              self.speed[0] = -self.speed[0]
-          if images_rect.top < 0 or images_rect.bottom > self.height:
-              self.speed[1] = -self.speed[1]
+            for ui_object in self.ui_objects:
+                print "object " + ui_object.name
+                print "speed " + str(self.speed)
 
-          self.screen.fill(black)
-          self.screen.blit(self.images, images_rect)
-          pygame.display.flip()
+                ui_object.move(self.speed)
+                
+                surface = ui_object.get_surface()
+                rect = surface.get_rect()
+
+                print "left " + str(rect.left)
+                print "right " + str(rect.right)
+                print "top " + str(rect.top)
+                print "bottom " + str(rect.bottom)
+                                
+#               if rect.left <= 0 or rect.right >= self.width:
+#                   self.speed[0] = -self.speed[0]
+#               if rect.top <= 0 or rect.bottom >= self.height:
+#                   self.speed[1] = -self.speed[1]
+
+            self._refresh_screen()
+            
+        
+    def _refresh_screen(self):
+        self.screen.fill(UI.BLACK)
+        for ui_object in self.ui_objects:
+            surface = ui_object.get_surface()
+            rect = ui_object.get_rectangle()
+            self.screen.blit(surface, rect)
+        pygame.display.flip()
         
         
 class Towerbloxx(object):
