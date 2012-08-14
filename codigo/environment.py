@@ -4,10 +4,11 @@ class Environment(object):
     THROW = 1
     PASS = 0
 
-    EOE = "GANASTE!"
+    EOE = "EOE"
+    MAX_HEIGHT = 100
     
     def initialize(self):
-        self.crane_direction = 1#-1 #{-1;1}
+        self.crane_direction = -1 #{-1;1}
         self.crane_pos = -49#-49 #[-49,49]
         self.tower_vel = 0 #[-5,5]
         self.tower_pos = 0 #[-49,49]
@@ -37,6 +38,16 @@ class Environment(object):
 
         next_state = self.state()
         reinforcement = self._get_reward(action, previous_tower_factor)
+        
+        ####
+        print self.tower_factor
+        if self._state == Environment.EOE:
+            if reinforcement > 0:
+                print "GANASTESS!"
+            else:
+                print "PERDISTESS!"
+        #####
+        
         return (next_state, reinforcement)
 
     def _correct_action(self, action):
@@ -97,7 +108,7 @@ class Environment(object):
         if self._has_new_floor(action):
             self.tower_height += 1
             self._update_tower_factor()
-            if self.tower_height > 10 or not self._is_tower_raised():
+            if self.tower_height > Environment.MAX_HEIGHT or not self._is_tower_raised():
                 self._state = Environment.EOE
 
     #PRE: El crane cae sobre el edificio
