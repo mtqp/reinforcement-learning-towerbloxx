@@ -1,6 +1,8 @@
 #coding=utf-8
 
 import sys, pygame
+sys.path.append( "../" )
+from environment import Environment
 #from towerbloxx import * 
 
 HORIZONTAL = "horizontal"
@@ -8,10 +10,10 @@ VERTICAL = "vertical"
 
 
 class UIObject(object):
-    def __init__(self, image_path):
+    def __init__(self, name, image_path):
         self.surface = pygame.image.load(image_path)
         self.rectangle = self.surface.get_rect()
-        self.name = image_path
+        self.name = name
         self.horizontal_speed = 0
         self.vertical_speed = 0
                 
@@ -36,38 +38,43 @@ class UI(object):
         self.width = 640
         self.height = 480
         self.size = self.width, self.height
-        #self.images = images #ACA VA ALGO O QUE CARAJO?
-        self.ui_objects = [UIObject("ball.bmp"), UIObject("warning.png")] #esto va a llevar una lista de las cosas q se carguen
         self.screen = pygame.display.set_mode(self.size)
-        self.towerbloxx = towerbloxx #aca va a estar la interaccion con lo que efectivamente hay q visualizar
-
-        #esto esta para testear
-        self.ui_objects[0].set_speed(2,2)
-        self.ui_objects[1].set_speed(5,6)
         
+        #esto va a llevar una lista de las cosas q se carguen
+        self.ui_objects = [UIObject("ball", "ball.bmp"), UIObject("warning_sign", "warning.png")] 
+        
+        #aca va a estar la interaccion con lo que efectivamente hay q visualizar
+        self.towerbloxx = towerbloxx 
+
     def show(self):
         pygame.init()
+        
+        #------esto esta para testear-----
+        self.ui_objects[0].set_speed(2,2)
+        self.ui_objects[1].set_speed(5,6)
+        #---------------------------------
 
         while 1:
-            self._check_for_closure()
-
-            for ui_object in self.ui_objects:
-                ui_object.move()
-                
-                rect = ui_object.rectangle
-                                
-                if rect.left < 0 or rect.right > self.width:
-                    ui_object.reverse_speed(HORIZONTAL)
-                if rect.top < 0 or rect.bottom > self.height:
-                    ui_object.reverse_speed(VERTICAL)
-
+            if self._must_close():
+                self.close()
+            self._position_ui_objects()
             self._refresh_screen()
-            
-    def _check_for_closure(self):
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT: 
-                sys.exit()
+            self.towerbloxx.set_next_state()
 
+    def close(self):
+        sys.exit()
+            
+    ##ESTE LLEVA LA LOGICA CON EL TOWERBLOXX
+    def _position_ui_objects(self):
+        for ui_object in self.ui_objects:
+            ui_object.move()
+            
+            rect = ui_object.rectangle
+                            
+            if rect.left < 0 or rect.right > self.width:
+                ui_object.reverse_speed(HORIZONTAL)
+            if rect.top < 0 or rect.bottom > self.height:
+                ui_object.reverse_speed(VERTICAL)
         
     def _refresh_screen(self):
         self.screen.fill(UI.BLACK)
@@ -75,10 +82,40 @@ class UI(object):
             self.screen.blit(ui_object.surface, ui_object.rectangle)
         pygame.display.flip()
         
-        
+    def _must_close(self):
+        must_close = False
+        for event in pygame.event.get():
+            must_close |= event.type == pygame.QUIT
+        return must_close
+
+class TowerbloxxState(object):
+    def __init__(self, crane_pos, tower_pos, action):
+        self.crane_pos = crane_pos
+        self.tower_pos = tower_pos
+        self.action = action
+
+
 class Towerbloxx(object):
     def __init__(self, run_info):
         self.run_info = run_info
+        self._process_run_info()
+        self.state = None
+        
+    def set_next_state(self):
+        pass
+        #print "implementar set_next_state"
+        
+    def _process_run_info(self):
+        
+        #------ESTOS VALORES SALEN DEL PROCESS -------
+        crane_pos = 0
+        tower_pos = 0
+        action = Environment.PASS
+        #---------------------------------------------
+        self.state = TowerbloxxState(crane_pos, tower_pos, action)
+        #pass
+        print "implementar _process_run_info"
+        
         
         
 class RunInfo(object):
@@ -87,7 +124,8 @@ class RunInfo(object):
         self._load_info()
         
     def _load_info(self):
-        print "implementar"
+        pass
+        #print "implementar _load_info"
         
 
 def main():
