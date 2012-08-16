@@ -22,7 +22,7 @@ class QAgent(Agent):
         return self.q_matrix.get(key, 0)
     
     def learn(self):
-        for i in range(1000):
+        for i in range(100):
             self.run_episode()
     
     def run_episode(self):

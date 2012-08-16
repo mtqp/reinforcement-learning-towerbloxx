@@ -5,11 +5,11 @@ class Environment(object):
     PASS = 0
 
     EOE = "EOE"
-    MAX_HEIGHT = 100
+    MAX_HEIGHT = 10
     
     def initialize(self):
-        self.crane_direction = -1 #{-1;1}
-        self.crane_pos = -49#-49 #[-49,49]
+        self.crane_direction = 1 #{-1;1}
+        self.crane_pos = -48#-49 #[-49,49]
         self.tower_vel = 0 #[-5,5]
         self.tower_pos = 0 #[-49,49]
         self.tower_height = 0
@@ -22,56 +22,37 @@ class Environment(object):
     
     def start(self):
         self.initialize()
-        initial_state = self.state()
-        return initial_state
+        return self.state()
 
     def make_action(self, action):
-        if not self._correct_action(action):
-            return "UNKNOWN ACTION"
-
         previous_tower_factor = self.tower_factor
         
         self._update_tower_state(action)
-
         self._move_tower()
         self._move_crane()
 
-        next_state = self.state()
-        reinforcement = self._get_reward(action, previous_tower_factor)
-        
-        ####
-        print self.tower_factor
-        if self._state == Environment.EOE:
-            if reinforcement > 0:
-                print "GANASTESS!"
-            else:
-                print "PERDISTESS!"
-        #####
-        
-        return (next_state, reinforcement)
+        reward = self._reward(action, previous_tower_factor)
+        state = self.state()
+        return (state, reward)
 
-    def _correct_action(self, action):
-        return action == Environment.THROW or action == Environment.PASS
-
-    def _get_reward(self, action, comparison_factor):
-        reinforcement = 0
+    def _reward(self, action, comparison_factor):
         improved_tower_balance = self.tower_factor <= comparison_factor
         
         if self._has_new_floor(action):
             if improved_tower_balance:
-                reinforcement = 100
+                reward = 300
             else:
-                reinforcement = 20
+                reward = 100
         else:
             if action == Environment.THROW:
-                reinforcement = -20 #negativo por haber fallado
+                reward = -20 #negativo por haber fallado
             else:
-                reinforcement = -1 #negativo por no haber tirado
+                reward = -1 #negativo por no haber tirado
         
-        if not self._is_tower_raised():
-            reinforcement = -100
+        if self.tower_fell():
+            reward = -100
 
-        return reinforcement
+        return reward
 
     #[MDS] --> un piso se agrega si queda a +- size/2 de la posicion del 
     #--------> piso anterior
@@ -79,12 +60,13 @@ class Environment(object):
     def _has_new_floor(self, action):
         has_new_floor = False
         if action == Environment.THROW:
-            drop_offset = abs(self._get_drop_offset_from_tower())
+            drop_offset = abs(self.drop_offset_of_tower())
             has_new_floor = drop_offset <= self.tower_size/2    
         
         return has_new_floor
 
-    def _get_drop_offset_from_tower(self):
+    #Preguntar:
+    def drop_offset_of_tower(self):
         if self.tower_pos == 0:
             return self.crane_pos
 
@@ -108,12 +90,13 @@ class Environment(object):
         if self._has_new_floor(action):
             self.tower_height += 1
             self._update_tower_factor()
-            if self.tower_height > Environment.MAX_HEIGHT or not self._is_tower_raised():
+            if self.tower_height > Environment.MAX_HEIGHT or self.tower_fell():
                 self._state = Environment.EOE
 
     #PRE: El crane cae sobre el edificio
+    #Revisar cuentas:
     def _update_tower_factor(self):
-        drop_offset = self._get_drop_offset_from_tower()
+        drop_offset = self.drop_offset_of_tower()
      
         if drop_offset != 0: ##sino no modifico el movimiento del edificio
             drop_right = drop_offset > 0 #se si lanzo a izquierda o derecha del ultimo piso
@@ -137,8 +120,8 @@ class Environment(object):
             else:
                 self.tower_factor += 0.1 + normalize_offset + normalize_height
 
-    def _is_tower_raised(self):
-        return self.tower_factor <= 0.99
+    def tower_fell(self):
+        return self.tower_factor > 0.99
 
     def _calculate_tower_speed(self, sgn, pos):
         vel =  (5 - abs(pos)/10) 
@@ -158,18 +141,16 @@ class Environment(object):
     
     # [MDS] --> no quedo lo suficientemente prolijo!
     # --> cmp(0,0) da cero, x lo tanto no podes romper el equilibrio
-    def _get_speed_sign(self):
+    def _speed_sign(self):
         moving = self.tower_vel != 0
-        sgn = 0
 
         if moving:
-            sgn = cmp(self.tower_vel,0)
+            return cmp(self.tower_vel,0)
         else:
-            sgn = cmp(self.crane_pos, 0)
-        return sgn
+            return cmp(self.crane_pos, 0)
     
     def _move_tower(self):        
-        sgn = self._get_speed_sign()
+        sgn = self._speed_sign()
         speed = self._calculate_tower_speed(sgn, self.tower_pos)
         self.tower_vel = self._round_up_far_from_zero(speed * self.tower_factor)
         
