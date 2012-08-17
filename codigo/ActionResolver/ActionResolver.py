@@ -1,4 +1,7 @@
+import math
 
+def sign(val):
+    return cmp(val,0) or 1
 
 class ActionResolver(object): 
     PASS_REWARD = -1
@@ -32,8 +35,8 @@ class ActionResolver(object):
     
 
     def move_tower(self):        
-        unsigned_speed_without_factor = self.environment.absolute_speed_by_position()
-        unsigned_speed = math.ceil(absolute_speed_without_factor * abs(self.environment.tower_factor))
+        unsigned_speed_without_factor = self.absolute_speed_by_position()
+        unsigned_speed = math.ceil(unsigned_speed_without_factor * abs(self.environment.tower_factor))
         current_speed_direction = sign(self.environment.tower_vel)
 
         self.environment.tower_vel = unsigned_speed * current_speed_direction

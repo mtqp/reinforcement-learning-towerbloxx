@@ -3,9 +3,6 @@ import math
 from ActionResolver.ActionResolver import *
 from state import *
 
-def sign(self,val):
-    return cmp(val,0) or 1
-
 class Environment(object):
 
     MAX_HEIGHT = 10
