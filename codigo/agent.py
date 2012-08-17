@@ -27,7 +27,7 @@ class QAgent(Agent):
     
     def run_episode(self):
         state = self.environment.start()
-        while state != Environment.EOE:
+        while not state.has_finished():
             action = self.choose_action(state)
             new_state, reward = self.environment.make_action(action)
             prev_qvalue = self.qvalue((state, action))
