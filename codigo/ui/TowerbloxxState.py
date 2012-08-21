@@ -2,14 +2,14 @@
 
 class TowerbloxxState(object):
     def __init__(self, crane_state, tower_state):
-        self.crane_state = crane_state
-        self.tower_state = tower_state
+        self.crane = crane_state
+        self.tower = tower_state
 
 
 class TowerState(object):
-    def __init__(self, position, velocity, height, factor):
+    def __init__(self, position, speed, height, factor):
         self.position = position
-        self.velocity = velocity
+        self.speed = speed
         self.height = height
         self.factor = factor
         
