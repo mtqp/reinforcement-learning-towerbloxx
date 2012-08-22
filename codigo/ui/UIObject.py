@@ -10,6 +10,12 @@ class UIObject(object):
         self.name = name
         self.horizontal_speed = 0
         self.vertical_speed = 0
+              
+    def get_height(self):
+        return self.rectangle.bottom - self.rectangle.top
+        
+    def get_width(self):
+        return self.rectangle.right - self.rectangle.left
                 
     def set_speed(self, horizontal, vertical):
         self.horizontal_speed = horizontal
@@ -22,13 +28,11 @@ class UIObject(object):
             self.vertical_speed = -self.vertical_speed
     
     def place(self, x_axis, y_axis):
-        print "x_axis:" + str(x_axis)
-        print "y_axis:" + str(y_axis)
         self.rectangle.left = x_axis
         self.rectangle.top = y_axis
     
     def move(self):
-        print "moving hspeed:" + str(self.horizontal_speed) + "    vspeed:" + str(self.vertical_speed)
-        self.rectangle = self.rectangle.move([self.horizontal_speed, self.vertical_speed])
+        speed = [self.horizontal_speed, self.vertical_speed]
+        self.rectangle = self.rectangle.move(speed)
     
 

@@ -9,6 +9,7 @@ class UI(object):
     BLACK = 0,0,0
     SCREEN_WIDTH = 800
     SCREEN_HEIGHT = 600
+    FLOOR = "imgs/floor.png"
     
     def __init__(self, towerbloxx):
         self.width = UI.SCREEN_WIDTH
@@ -17,7 +18,7 @@ class UI(object):
         self.screen = pygame.display.set_mode(self.size)
         
         #esto va a llevar una lista de las cosas q se carguen
-        self.ui_objects = [UIObject("crane", "imgs/floor.png"), UIObject("tower", "imgs/floor.png")] 
+        self.ui_objects = [UIObject("crane", UI.FLOOR), UIObject("tower", UI.FLOOR)] 
         
         #aca va a estar la interaccion con lo que efectivamente hay q visualizar
         self.towerbloxx = towerbloxx 
@@ -25,64 +26,75 @@ class UI(object):
     def show(self):
         pygame.init()
         
-        #------esto esta para testear-----
-        #self.ui_objects[0].set_speed(2,2)
-        #self.ui_objects[1].set_speed(5,6)
-        #---------------------------------
         init_state = self.towerbloxx.get_next_state()
         self._place_ui_objects(init_state)
 
-        while self.towerbloxx.has_next_state() and not self._must_close():
+        while self.towerbloxx.has_next_state():
+            if self._must_close():
+                self.close()
             state = self.towerbloxx.get_next_state()
             self._position_ui_objects(state)
+            self._position_counter(state)
             self._refresh_screen()
 
+        time.sleep(1.5)
         self.close()
 
     def close(self):
-        time.sleep(1.5)
         sys.exit()
             
     def _place_ui_objects(self, state):
-        ui_crane = self.ui_objects[0]
-        ui_tower = self.ui_objects[1]
-        
         crane_x, crane_y = self._parse_crane_position(state.crane)
         tower_x, tower_y = self._parse_tower_position(state.tower)
 
-        ui_crane.place(0,0)#(crane_x, crane_y)
-        ui_tower.place(0,123)#(tower_x, tower_y)
-        
-    def _parse_crane_position(self, crane_state):
-        print "implementar parse crane position"
-        return 0,0
-        
-    def _parse_tower_position(self, tower_state):
-        print "implementar parse tower position"
-        return 0,0
-
-    ##ESTE LLEVA LA LOGICA CON EL TOWERBLOXX
-    def _position_ui_objects(self, state):
         ui_crane = self.ui_objects[0]
         ui_tower = self.ui_objects[1]
+        ui_crane.place(crane_x, crane_y)
+        ui_tower.place(tower_x, tower_y)
+        
+    def _parse_crane_position(self, crane_state):
+        ui_crane = self.ui_objects[0]
+        x_axis = self._get_x_axis(crane_state.position, ui_crane.get_width())
+        y_axis = 0
+        return x_axis, y_axis
+        
+    def _parse_tower_position(self, tower_state):
+        ui_tower = self.ui_objects[1]
+        x_axis = self._get_x_axis(tower_state.position, ui_tower.get_width())
+        y_axis = UI.SCREEN_HEIGHT - ui_tower.get_height()
+        return x_axis, y_axis
 
-        #ui_crane.set_speed(state.crane.direction, 0)
-        #ui_tower.set_speed(state.tower.speed, 0)
-        #no se xq se rompe si asigno solo una variable...
-        #ui_crane.horizontal_speed = state.crane.direction
-        #ui_tower.horizontal_speed = state.tower.speed
+    def _get_x_axis(self, position, ui_width):
+        shifted_position = position + 50
+        x_axis = UI.SCREEN_WIDTH * shifted_position / 100
+        x_axis = x_axis - (ui_width/2) #lo centra
+        return x_axis
+
+    def _set_crane_speed(self, state):
+#       self.crane_direction = -1 #{-1;1}
+#       self.crane_pos = -49 #[-49,49]
+#       self.tower_vel = 0 #[-5,5]
+#       self.tower_pos = 0 #[-49,49]
+#       self.tower_height = 0
+#       self.tower_factor = 0 #(-1,1)
+#       self.tower_size = 10 #multiplos de 2
+
+        ui_crane = self.ui_objects[0]
+        ui_crane.horizontal_speed = state.crane.direction
+    
+    def _set_tower_speed(self, state):
+        ui_tower = self.ui_objects[1]
+        ui_tower.horizontal_speed = state.tower.speed
+    
+    def _position_counter(self, state):
+        print "implementar position counter!!!!!"
+
+    def _position_ui_objects(self, state):
+        self._set_crane_speed(state)
+        self._set_tower_speed(state)
         
         for ui_object in self.ui_objects:
             ui_object.move()
-            
-#-----------esto esta para testear------------
-#           rect = ui_object.rectangle
-                            
-#           if rect.left < 0 or rect.right > self.width:
-#               ui_object.reverse_speed(HORIZONTAL)
-#           if rect.top < 0 or rect.bottom > self.height:
-#               ui_object.reverse_speed(VERTICAL)
-#---------------------------------------------
         
     def _refresh_screen(self):
         time.sleep(1)

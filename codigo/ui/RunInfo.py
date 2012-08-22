@@ -14,12 +14,12 @@ class RunInfo(object):
         for line in file_source:
             splitted_line = line.split()
             if len(splitted_line) == 6:
-                crane_dir = splitted_line[0]
-                crane_pos = splitted_line[1]
-                tower_vel = splitted_line[2]
-                tower_pos = splitted_line[3]
-                tower_height = splitted_line[4]
-                tower_factor = splitted_line[5]
+                crane_dir = int(splitted_line[0])
+                crane_pos = int(splitted_line[1])
+                tower_vel = int(splitted_line[2])
+                tower_pos = int(splitted_line[3])
+                tower_height = int(splitted_line[4])
+                tower_factor = float(splitted_line[5])
                 
                 crane_state = CraneState(crane_pos, crane_dir)
                 tower_state = TowerState(tower_pos, tower_vel, tower_height, tower_factor)
