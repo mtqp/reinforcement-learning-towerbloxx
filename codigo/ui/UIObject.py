@@ -4,12 +4,21 @@ import pygame
 from Constants import *
 
 class UIObject(object):
-    def __init__(self, name, image_path):
-        self.surface = pygame.image.load(image_path)
+    IMAGE_PATH = "imgs/"
+    
+    def __init__(self, name, image):
+        self.surface = pygame.image.load(UIObject.IMAGE_PATH + image)
         self.rectangle = self.surface.get_rect()
         self.name = name
         self.horizontal_speed = 0
         self.vertical_speed = 0
+
+    def set_image(self, image):
+        bak_rectangle = self.rectangle
+        self.surface = pygame.image.load(UIObject.IMAGE_PATH + image)
+        self.rectangle = self.surface.get_rect()
+        self.rectangle.top = bak_rectangle.top
+        self.rectangle.left= bak_rectangle.left
               
     def get_height(self):
         return self.rectangle.bottom - self.rectangle.top
