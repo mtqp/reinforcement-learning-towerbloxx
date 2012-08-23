@@ -12,7 +12,7 @@ class UICounter(object):
             self.ui_objects.append(UIObject(name, img))
 
     def start(self, state):
-        self.place(UI.X_COUNTERS, UI.Y_COUNTERS)
+        self.place(X_COUNTERS, Y_COUNTERS)
 
     #se ponen uno al lado del otro... quizas sirve mas uno abajo del otro, no se
     def place(self, x_axis, y_axis):

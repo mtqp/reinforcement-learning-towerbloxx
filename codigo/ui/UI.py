@@ -10,17 +10,13 @@ from Constants import *
 
 class UI(object):
     BLACK = 0,0,0
-    X_COUNTERS = 700    
-    Y_COUNTERS = 400
-    SCREEN_WIDTH = 800
-    SCREEN_HEIGHT = 600
     CRANE = 0
     TOWER = 1
     COUNTER = 2
     
     def __init__(self, towerbloxx):
-        self.width = UI.SCREEN_WIDTH
-        self.height = UI.SCREEN_HEIGHT
+        self.width = SCREEN_WIDTH
+        self.height = SCREEN_HEIGHT
         self.size = self.width, self.height
         self.screen = pygame.display.set_mode(self.size)
         
@@ -45,7 +41,6 @@ class UI(object):
             #-----TESTING-
             state.tower.height = i_counter
             i_counter += 1
-            self.counter.set_state(state)
             #-------------
             self.update_state(state)
             self._refresh_screen()
@@ -74,11 +69,12 @@ class UI(object):
   #      ui_tower.place(tower_x, tower_y)
    #     ui_counter.place(UI.X_COUNTERS, UI.Y_COUNTERS)
 
-    def get_x_axis(self, position, ui_width):
-        shifted_position = position + 50
-        x_axis = UI.SCREEN_WIDTH * shifted_position / 100
-        x_axis = x_axis - (ui_width/2) #lo centra
-        return x_axis
+
+#   def get_x_axis(self, position, ui_width):
+ #      shifted_position = position + 50
+  #     x_axis = UI.SCREEN_WIDTH * shifted_position / 100
+   #    x_axis = x_axis - (ui_width/2) #lo centra
+    #   return x_axis
 
     def _refresh_screen(self):
         time.sleep(1)
