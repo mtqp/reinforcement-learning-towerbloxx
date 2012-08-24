@@ -13,10 +13,9 @@ class UICrane(UIObject):
         super(UICrane, self).place(crane_x, crane_y)
 
     def set_state(self, state):
-        self.horizontal_speed = state.crane.direction * 10
+        self.rectangle.left = self.get_x_axis(state.crane.position, super(UICrane,self).get_width())
 
     def draw(self, screen):
-        super(UICrane,self).move()
         screen.blit(self.surface, self.rectangle)
 
     def _parse_crane_position(self, crane_state):
@@ -26,7 +25,9 @@ class UICrane(UIObject):
         
     def get_x_axis(self, position, ui_width):
         shifted_position = position + 50
-        x_axis = SCREEN_WIDTH * shifted_position / 100
+        buckets = SCREEN_WIDTH / 99 #posiciones en total 
+        
+        x_axis = buckets * shifted_position
         x_axis = x_axis - (ui_width/2) #lo centra
         return x_axis
 
