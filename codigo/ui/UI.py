@@ -6,15 +6,16 @@ from UIObject import UIObject
 from UITower import UITower
 from UICrane import UICrane
 from UICounter import UICounter
+from UIBackground import UIBackground
 from Constants import *
 
 class UI(object):
-    BLACK = 0,0,0
-    CRANE = 0
-    TOWER = 1
-    COUNTER = 2
+    CRANE = 1
+    TOWER = 2
+    COUNTER = 3
     REFRESH_SLOW = 1
-    REFRESH_QUICK = 0.10
+    REFRESH_QUICK = 0.05
+    WAIT = 10
     
     def __init__(self, towerbloxx):
         self.width = SCREEN_WIDTH
@@ -22,7 +23,7 @@ class UI(object):
         self.size = self.width, self.height
         self.screen = pygame.display.set_mode(self.size)
         
-        self.ui_objects = [UICrane("crane"), UITower("tower"), UICounter("counter")] 
+        self.ui_objects = [UIBackground("background"), UICrane("crane"), UITower("tower"), UICounter("counter")] 
         self.towerbloxx = towerbloxx 
 
     def show(self):
@@ -49,21 +50,19 @@ class UI(object):
             else:
                 self._refresh_screen(UI.REFRESH_SLOW)
 
-        time.sleep(1.5)
+        time.sleep(UI.WAIT)
         self.close()
 
     def update_state(self, state):
         for ui_object in self.ui_objects:
             ui_object.set_state(state)
 
-            
     def _init_ui_objects(self, state):
         for ui_object in self.ui_objects:
             ui_object.start(state)
 
     def _refresh_screen(self, refresh_rate):
         time.sleep(refresh_rate)
-        self.screen.fill(UI.BLACK)
         for ui_object in self.ui_objects:
             ui_object.draw(self.screen)
         pygame.display.flip()
