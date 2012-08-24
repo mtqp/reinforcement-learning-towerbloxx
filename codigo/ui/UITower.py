@@ -40,6 +40,25 @@ class UITower(object):
             last_floor.rectangle.left = self.get_x_axis(state.tower.position, last_floor.get_width())
             self._move_floors_snake_like()
 
+    def draw(self, screen):
+        if not self.falling_floor_reward == None:
+            self._move_falling_floor()
+            
+            floor = self.falling_floor_reward[0]
+            if self._has_stopped_falling():
+                reward = self.falling_floor_reward[1]
+                self._set_y_axis_floor(floor)
+                if reward == NEW_FLOOR:
+                   self.floors.append(floor)
+                else:
+                    screen.blit(floor.surface, floor.rectangle)                
+                self.falling_floor_reward = None
+
+        #hay que dibujar los ultimos n pisos...
+        last_n_floors = self._get_last_n_floors()
+        for floor in last_n_floors:
+            screen.blit(floor.surface, floor.rectangle)
+
     def _move_floors_snake_like(self): #no quiero pensar mas nombre de metodos
         height = len(self.floors)
         if height > 2: #si hay al menos tres pisos, quiero posicionar todos los del medio
@@ -61,26 +80,6 @@ class UITower(object):
 
                 middle_floor.rectangle.left += math.ceil(move_percentaje * space_to_move * sgn_move)
                 index -=1
-
-    def draw(self, screen):
-        #hay que dibujar los ultimos n pisos...
-        last_n_floors = self._get_last_n_floors()
-        for floor in last_n_floors:
-            screen.blit(floor.surface, floor.rectangle)
-        
-        if not self.falling_floor_reward == None:
-            self._move_falling_floor()
-            
-            floor = self.falling_floor_reward[0]
-            screen.blit(floor.surface, floor.rectangle)
-            
-            if self._has_stopped_falling():
-                reward = self.falling_floor_reward[1]
-                if reward == NEW_FLOOR:
-                    self._set_y_axis_floor(floor)
-                    self.floors.append(floor)
-                
-                self.falling_floor_reward = None
 
     def _set_y_axis_floor(self, floor):
         height = len(self.floors)
