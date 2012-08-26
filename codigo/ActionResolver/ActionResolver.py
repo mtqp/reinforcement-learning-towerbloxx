@@ -9,7 +9,8 @@ class ActionResolver(object):
     TOWER_FELL_REWARD = -100
     DOWNGRADE_STABILITY_REWARD = 30
     UPGRADE_STABILITY_REWARD = 100
-
+    MAX_REWARD = UPGRADE_STABILITY_REWARD
+    
     @classmethod
     def create_for(cls, environment, action):
         from PassActionResolver import PassActionResolver

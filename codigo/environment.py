@@ -29,6 +29,9 @@ class Environment(object):
         self.initialize()
         return self.state
 
+    def max_reward(self):
+        return ActionResolver.MAX_REWARD
+
     def make_action(self, action):
         resolver = ActionResolver.create_for(self, action)
         state, reward = resolver.resolve()
