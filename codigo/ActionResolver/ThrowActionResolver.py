@@ -7,8 +7,8 @@ class ThrowActionResolver(ActionResolver):
 
     def resolve(self):
         self.throw()
-        if self.environment.state.has_finished():
-            return self.environment.state, self.reward()
+        if self.environment.state().has_finished():
+            return self.environment.state(), self.reward()
         else:
             return super(ThrowActionResolver,self).resolve()
         
@@ -27,7 +27,7 @@ class ThrowActionResolver(ActionResolver):
         
         if self.tower_fell():
                 self._reward = self.TOWER_FELL_REWARD
-                self.environment.state.finish()
+                self.environment.state().finish()
         else:
             if improve_tower_factor:
                 self._reward = self.UPGRADE_STABILITY_REWARD

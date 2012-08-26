@@ -26,7 +26,7 @@ class ActionResolver(object):
     def resolve(self):
         self.move_tower()
         self.move_crane()
-        return self.environment.state, self.reward()
+        return self.reward()
 
     def move_crane(self):
         if abs(self.environment.crane_pos) == self.environment.POSITION_BOUND:
