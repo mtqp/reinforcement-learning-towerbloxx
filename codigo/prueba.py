@@ -4,11 +4,8 @@ from Agents.QLambdaAgent import QLambdaAgent
 
 
 env = Environment()
-qlambda = QLambdaAgent(env,2)
-print "QLambdaAgent(4) learing..."
+qlambda = QAgent(env)
 qlambda.learn()
-print "QLambdaAgent(4) learned:"
-
 qlambda.what_did_i_learned()
 
 
