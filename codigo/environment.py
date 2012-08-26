@@ -20,7 +20,7 @@ class Environment(object):
         self.tower_height = 0
         self.tower_factor = 0 #(-1,1)
         self.tower_size = 10 #multiplos de 2
-        self.state = State(self)
+        self.state = State(self.visible_factors())
 
     def  __init__(self):
         self.initialize()
