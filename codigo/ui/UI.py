@@ -62,10 +62,10 @@ class UI(object):
             ui_object.start(state)
 
     def _refresh_screen(self, refresh_rate):
-        time.sleep(refresh_rate)
         for ui_object in self.ui_objects:
             ui_object.draw(self.screen)
         pygame.display.flip()
+        time.sleep(refresh_rate)
         
     def _must_close(self):
         must_close = False

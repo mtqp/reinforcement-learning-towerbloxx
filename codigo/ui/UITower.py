@@ -5,13 +5,12 @@ from UI import *
 from Constants import *
 import math
 
-NEW_FLOOR = 500
-
 class UITower(object):
     DECREASE_HEIGHT = 25
     
     def __init__(self, name):
         self.floors = []
+        self.reward_values = [500]
         self.falling_floor_reward = None
         self.max_floor_count = 3
         self.factor = 0.0
@@ -48,7 +47,7 @@ class UITower(object):
             if self._has_stopped_falling():
                 reward = self.falling_floor_reward[1]
                 self._set_y_axis_floor(floor)
-                if reward == NEW_FLOOR:
+                if self._must_add_new_floor(reward):
                    self.floors.append(floor)
                 else:
                     screen.blit(floor.surface, floor.rectangle)                
@@ -58,6 +57,12 @@ class UITower(object):
         last_n_floors = self._get_last_n_floors()
         for floor in last_n_floors:
             screen.blit(floor.surface, floor.rectangle)
+
+    def _must_add_new_floor(self, reward):
+        must_add = False
+        for add_reward in self.reward_values:
+            must_add |= reward == add_reward
+        return must_add
 
     def _move_floors_snake_like(self): #no quiero pensar mas nombre de metodos
         height = len(self.floors)
@@ -100,7 +105,7 @@ class UITower(object):
     def _has_stopped_falling(self):
         reward = self.falling_floor_reward[1]
         falling_floor = self.falling_floor_reward[0]
-        if reward == NEW_FLOOR and len(self.floors)>0:
+        if self._must_add_new_floor(reward) and len(self.floors)>0:
             last_floor = self.floors[len(self.floors)-1]
             return falling_floor.rectangle.bottom >= (last_floor.rectangle.bottom - 1)
         else:
