@@ -54,16 +54,9 @@ class UITower(object):
                 self.falling_floor_reward = None
 
         #hay que dibujar los ultimos n pisos...
-        last_n_floors = self._get_last_n_floors()
-        #self._place_bottom(last_n_floors)
+        last_n_floors = self._get_placed_last_n_floors()
         for floor in last_n_floors:
             screen.blit(floor.surface, floor.rectangle)
-
-    def _place_bottom(self, floors):
-        y_axis = SCREEN_WIDTH
-        for floor in floors:
-            floor.rectangle.bottom = y_axis
-            y_axis = y_axis - (floor.get_height() + 1)
 
     def _must_add_new_floor(self, reward):
         must_add = False
@@ -101,16 +94,24 @@ class UITower(object):
             last_floor = self.floors[height-1]
             floor.rectangle.bottom = last_floor.rectangle.top + 1
 
-    def _get_last_n_floors(self):
+
+    def _get_placed_last_n_floors(self):
         floor_count = len(self.floors)
         invisible_floor_count = floor_count - self.max_floor_count
         if invisible_floor_count > 0:
             last_floors = []            
             for i in range(invisible_floor_count, floor_count):
                 last_floors.append(self.floors[i])
+            self._place_bottom_screen(last_floors)
             return last_floors
         else:
             return self.floors
+            
+    def _place_bottom_screen(self, floors):
+        y_axis = SCREEN_HEIGHT
+        for floor in floors:
+            floor.rectangle.bottom = y_axis
+            y_axis -= floor.get_height()
 
     def _has_stopped_falling(self):
         reward = self.falling_floor_reward[1]
