@@ -15,7 +15,7 @@ class UI(object):
     COUNTER = 3
     REFRESH_SLOW = 1
     REFRESH_QUICK = 0.05
-    WAIT = 10
+    WAIT = 3
     
     def __init__(self, towerbloxx):
         self.width = SCREEN_WIDTH
@@ -50,6 +50,7 @@ class UI(object):
             else:
                 self._refresh_screen(UI.REFRESH_SLOW)
 
+        self._refresh_screen(UI.REFRESH_SLOW)
         time.sleep(UI.WAIT)
         self.close()
 
