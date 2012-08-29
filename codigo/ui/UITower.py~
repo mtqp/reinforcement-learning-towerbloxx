@@ -70,7 +70,7 @@ class UITower(object):
                 middle_floor = self.floors[index-1]
                 down_floor = self.floors[index-2]
 
-                #MALISIMA CUENTA, DE FISICA CERO CHE...
+                #esta como el culo esta cuenta!!!                
                 move_percentaje = self.factor * (index-1) / height
                 move_percentaje = abs(move_percentaje)
 

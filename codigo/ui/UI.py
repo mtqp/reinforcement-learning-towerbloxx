@@ -10,6 +10,7 @@ from UIBackground import UIBackground
 from Constants import *
 
 class UI(object):
+    TITLE = "Towerbloxx Reinforcement Learning"
     BACKGROUND = 0
     CRANE = 1
     TOWER = 2
@@ -25,7 +26,7 @@ class UI(object):
         self.screen = pygame.display.set_mode(self.size)
         self.ui_objects = [UIBackground("background"), UICrane("crane"), UITower("tower"), UICounter("counter")] 
         self.towerbloxx = towerbloxx 
-        pygame.display.set_caption("Towerbloxx Reinforcement Learning")
+        pygame.display.set_caption(UI.TITLE)
 
     def show(self):
         pygame.init()
@@ -42,7 +43,7 @@ class UI(object):
             if state.game.action == THROW:
                 ui_tower = self.ui_objects[UI.TOWER]
                 floor = self.ui_objects[UI.CRANE]
-                ui_tower.append_floor(floor, state.game.reward)
+                ui_tower.append_floor(floor)
                 
                 while not ui_tower.finished_dropping():
                     self._refresh_screen(UI.REFRESH_QUICK)

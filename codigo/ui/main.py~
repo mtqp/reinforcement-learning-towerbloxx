@@ -16,6 +16,6 @@ def main(path):
     ui.show()
 
 if __name__ == "__main__":  
-    main(sys.argv[1])
+    main(sys.argv[0])
         
         

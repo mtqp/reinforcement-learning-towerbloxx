@@ -10,6 +10,7 @@ from UIBackground import UIBackground
 from Constants import *
 
 class UI(object):
+    TITLE = "Towerbloxx Reinforcement Learning"
     BACKGROUND = 0
     CRANE = 1
     TOWER = 2
@@ -23,9 +24,9 @@ class UI(object):
         self.height = SCREEN_HEIGHT
         self.size = self.width, self.height
         self.screen = pygame.display.set_mode(self.size)
-        
         self.ui_objects = [UIBackground("background"), UICrane("crane"), UITower("tower"), UICounter("counter")] 
         self.towerbloxx = towerbloxx 
+        pygame.display.set_caption(UI.TITLE)
 
     def show(self):
         pygame.init()
