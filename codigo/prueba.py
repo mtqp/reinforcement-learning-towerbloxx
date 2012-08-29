@@ -4,7 +4,7 @@ from Agents.QLambdaAgent import QLambdaAgent
 
 
 env = Environment()
-qlambda = QAgent(env)
+qlambda = QLambdaAgent(env,1)
 qlambda.learn()
 qlambda.what_did_i_learned()
 
