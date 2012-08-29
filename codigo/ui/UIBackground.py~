@@ -47,6 +47,6 @@ class UIBackground(UIObject):
     def _get_percentage(self):
         mod_state = abs(self.acum_rewards)
         percentage = math.log(mod_state) / math.log(UIBackground.MAX_ABS_ACUM)
-        #print "acum: " + str(self.acum_rewards) + " percentage: " + str(percentage)
+        print "acum: " + str(self.acum_rewards) + " percentage: " + str(percentage)
         return percentage
 
