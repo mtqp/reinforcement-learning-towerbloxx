@@ -18,10 +18,8 @@ class UICounter(object):
         Y = SCREEN_HEIGHT - self.ui_objects[0].get_height() - UICounter.MARGIN
         self.place(X, Y)
 
-    #se ponen uno al lado del otro... quizas sirve mas uno abajo del otro, no se
     def place(self, x_axis, y_axis):
         last_x = x_axis
-        #last_y = y_axis
         
         for ui_object in self.ui_objects:
             ui_object.place(last_x, y_axis)
@@ -43,12 +41,29 @@ class UICounter(object):
             raise Exception("No se permite mas de " + str(ui_objs_count -1) + " pisos")
 
     def place_center(self, x, y, width, height):
-        pass
+        self._place_center_height(y, height)
+        self._place_center_width(x, width)
+    
+    def _place_center_height(self, y, height):
+        offset_rectangle = int((height-y)/2)
+        offset_ui = int(self.ui_objects[0].get_height() / 2)
+        for ui_object in self.ui_objects:
+            ui_object.rectangle.top = y + offset_rectangle            
+            ui_object.rectangle.top -= offset_ui
+      
+    def _place_center_width(self, x, width):
+        count = len(self.ui_objects)   
+        total_width = 0
+        for ui_object in self.ui_objects:
+            total_width += ui_object.get_width()
         
-        #count = len(self.ui_objects)
-        #if count % 2 == 0:
+        x_pos = int(((width - x) / 2) - total_width/2)
+        if x_pos < 0:
+            raise Exception("Invalid centering")
+        for ui_object in self.ui_objects:
+            ui_object.rectangle.left = x_pos
+            x_pos += ui_object.get_width()
             
-
     def draw(self, screen):
         for ui_object in self.ui_objects:
             screen.blit(ui_object.surface, ui_object.rectangle)

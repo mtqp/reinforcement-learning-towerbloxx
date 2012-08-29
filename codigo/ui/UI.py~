@@ -16,7 +16,7 @@ class UI(object):
     COUNTER = 3
     REFRESH_SLOW = 1
     REFRESH_QUICK = 0.05
-    WAIT = 3
+    WAIT = 3.5
     
     def __init__(self, towerbloxx):
         self.width = SCREEN_WIDTH
@@ -62,7 +62,7 @@ class UI(object):
 
     def _get_center_counter(self):
         counter = self.ui_objects[UI.COUNTER]
-        counter.place_centered
+        counter.place_center(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
         return counter
 
     def update_state(self, state):

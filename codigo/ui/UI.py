@@ -16,16 +16,16 @@ class UI(object):
     COUNTER = 3
     REFRESH_SLOW = 1
     REFRESH_QUICK = 0.05
-    WAIT = 3
+    WAIT = 3.5
     
     def __init__(self, towerbloxx):
         self.width = SCREEN_WIDTH
         self.height = SCREEN_HEIGHT
         self.size = self.width, self.height
         self.screen = pygame.display.set_mode(self.size)
-        
         self.ui_objects = [UIBackground("background"), UICrane("crane"), UITower("tower"), UICounter("counter")] 
         self.towerbloxx = towerbloxx 
+        pygame.display.set_caption("Towerbloxx Reinforcement Learning")
 
     def show(self):
         pygame.init()
