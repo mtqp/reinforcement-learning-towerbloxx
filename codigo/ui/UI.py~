@@ -62,7 +62,7 @@ class UI(object):
 
     def _get_center_counter(self):
         counter = self.ui_objects[UI.COUNTER]
-        counter.place_center(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
+        counter.place_centered
         return counter
 
     def update_state(self, state):
