@@ -39,3 +39,13 @@ class TestEnvironmentBounds(unittest.TestCase):
 
 class TestEnvironmentBalancing(unittest.TestCase):
     pass
+
+class TestEnvironmentStates(unittest.TestCase):
+    def test_singleton_states(self):
+        e = Environment()
+        statuses = set()
+        for i in range(2000):
+            s,r = e.make_action(Environment.PASS)
+            statuses.add(s)
+        print len(statuses)
+        self.assertTrue(len(statuses) == 196)

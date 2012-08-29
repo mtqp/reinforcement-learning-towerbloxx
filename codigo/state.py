@@ -1,5 +1,6 @@
 class State(object):
     _instances = {}
+    _misses = 0
 
     def __new__(cls, environment):
         factors = environment.visible_factors()
@@ -17,6 +18,6 @@ class State(object):
 
     def has_finished(self):
         return self._finish
-
+    
     def state_factors(self):
         return self._environment.visible_factors()

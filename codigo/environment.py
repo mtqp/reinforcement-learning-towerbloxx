@@ -5,7 +5,7 @@ from state import *
 
 class Environment(object):
 
-    MAX_HEIGHT = 1
+    MAX_HEIGHT = 3
     
     THROW = 1
     PASS = 0

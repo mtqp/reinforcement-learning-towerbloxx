@@ -4,11 +4,11 @@ def sign(val):
     return cmp(val,0) or 1
 
 class ActionResolver(object): 
-    PASS_REWARD = -1
+    PASS_REWARD = -5
     MISSING_REWARD = -20
     TOWER_FELL_REWARD = -100
     DOWNGRADE_STABILITY_REWARD = 30
-    UPGRADE_STABILITY_REWARD = 100
+    UPGRADE_STABILITY_REWARD = 1000
     MAX_REWARD = UPGRADE_STABILITY_REWARD
     
     @classmethod
