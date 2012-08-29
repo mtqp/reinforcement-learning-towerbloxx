@@ -12,17 +12,22 @@ class Environment(object):
     
     POSITION_BOUND = 49
 
-    def initialize(self):
-        self.crane_direction = -1 #{-1;1}
-        self.crane_pos = -49 #[-49,49]
-        self.tower_vel = 0 #[-5,5]
-        self.tower_pos = 0 #[-49,49]
-        self.tower_height = 0
-        self.tower_factor = 0 #(-1,1)
-        self.tower_size = 10 #multiplos de 2
+    def initialize(self, crane_dir=-1, crane_pos=-49, tower_vel=0, tower_pos=0, 
+                            tower_height=0, tower_factor=0, tower_size=10):
+        self.crane_direction = crane_dir #{-1;1}
+        self.crane_pos = crane_pos #[-49,49]
+        self.tower_vel = tower_vel #[-5,5]
+        self.tower_pos = tower_pos #[-49,49]
+        self.tower_height = tower_height
+        self.tower_factor = tower_factor #(-1,1)
+        self.tower_size = tower_size #multiplos de 2
+        self._finished = False
 
-    def  __init__(self):
-        self.initialize()
+    def  __init__(self, **kwargs):
+        self.initialize(**kwargs)
+
+    def finish(self):
+        self._finished = True
 
     def start(self):
         self.initialize()

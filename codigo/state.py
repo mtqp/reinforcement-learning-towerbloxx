@@ -10,14 +10,10 @@ class State(object):
 
 
     def __init__(self, environment):
-        self._finish = None
         self._environment = environment
 
-    def finish(self):
-        self._finish = True
-
     def has_finished(self):
-        return self._finish
+        return self._environment._finished
     
     def state_factors(self):
         return self._environment.visible_factors()

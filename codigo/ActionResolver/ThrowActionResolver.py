@@ -27,7 +27,7 @@ class ThrowActionResolver(ActionResolver):
         
         if self.tower_fell():
                 self._reward = self.TOWER_FELL_REWARD
-                self.environment.state().finish()
+                self.environment.finish()
         else:
             if improve_tower_factor:
                 self._reward = self.UPGRADE_STABILITY_REWARD

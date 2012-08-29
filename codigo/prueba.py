@@ -1,9 +1,9 @@
 from environment import Environment
-from Agents.QAgent import QAgent
+from Agents.SarsaLambdaAgent import SarsaLambda
 
 
 env = Environment()
-sarsa = QAgent(env)
+sarsa = SarsaLambda(env, 0.1)
 sarsa.learn()
 sarsa.what_did_i_learned()
 

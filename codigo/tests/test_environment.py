@@ -5,47 +5,37 @@ import unittest
 from environment import Environment
 
 
-class TestEnvironmentBounds(unittest.TestCase):
-    
-    def setUp(self):
-        self.environment = Environment()
-    
-    def _bounded_building_test(self, crane_offset):
-        initial_state, final_state = self.environment.start()
-        
-        
-        finish = False
-        count_until = 200
-        while not finish and count_until:
-            self.environment.crane_pos = self.environment.tower_pos + crane_offset
-            response = self.environment.make_action(Environment.THROW)
-            if "PERDISTE" in response:
-                finish = True
-            self.assertLessEqual(abs(self.environment.tower_pos), 49)
-            count_until -= 1
-        
-        self.assertTrue(bool(count_until))
-    
-    def test_bounded_right_building(self):
-        for offset in range(1,11):
-            self._bounded_building_test(offset)
-            self.environment = Environment()
-    
-    def test_bounded_left_building(self):
-        for offset in range(-1,-11,-1):
-            self._bounded_building_test(offset)
-            self.environment = Environment()
-    
-
-class TestEnvironmentBalancing(unittest.TestCase):
-    pass
-
 class TestEnvironmentStates(unittest.TestCase):
+
+    def setUp(self):
+        self.visited_statuses = set()
+        self.environment = Environment(crane_pos=-15, crane_dir=1)
+    
+    def make(self, action):
+        s,r = self.environment.make_action(action)
+        self.visited_statuses.add(s)
+        return s,r
+        
+    def make_many(self, quantity, action):
+        for i in range(quantity):
+            self.make(action)
+            
     def test_singleton_states(self):
-        e = Environment()
-        statuses = set()
-        for i in range(2000):
-            s,r = e.make_action(Environment.PASS)
-            statuses.add(s)
-        print len(statuses)
-        self.assertTrue(len(statuses) == 196)
+        self.make_many(2000, Environment.PASS)
+        self.assertEqual(len(self.visited_statuses),196)
+    
+    def test_one_throw(self):
+        self.make(Environment.THROW)
+        self.make_many(2000, Environment.PASS)
+        self.assertEqual(len(self.visited_statuses),196)
+    
+    def test_almost_not_missing_throw(self):
+        self.make_many(4, Environment.PASS)
+        self.make(Environment.THROW)
+        self.make_many(200, Environment.PASS)
+        self.assertEqual(len(self.visited_statuses),196)
+        
+    def test_not_missing_throw(self):
+        self.make_many(5, Environment.PASS)
+        s,r = self.make(Environment.THROW)
+        self.assertTrue(s.has_finished())
