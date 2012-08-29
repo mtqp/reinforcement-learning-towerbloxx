@@ -4,6 +4,8 @@ from UIObject import UIObject
 from Constants import * 
 
 class UICounter(object):
+    MARGIN = 10
+
     def __init__(self, name):
         zero = COUNTER_PATH + "0" + IMAGE_EXTENSION
         images = [zero, zero, zero]
@@ -12,7 +14,9 @@ class UICounter(object):
             self.ui_objects.append(UIObject(name, img))
 
     def start(self, state):
-        self.place(X_COUNTERS, Y_COUNTERS)
+        X = SCREEN_WIDTH - (self.ui_objects[0].get_width()*len(self.ui_objects)) - UICounter.MARGIN
+        Y = SCREEN_HEIGHT - self.ui_objects[0].get_height() - UICounter.MARGIN
+        self.place(X, Y)
 
     #se ponen uno al lado del otro... quizas sirve mas uno abajo del otro, no se
     def place(self, x_axis, y_axis):
