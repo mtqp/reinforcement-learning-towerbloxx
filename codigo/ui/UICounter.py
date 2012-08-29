@@ -44,6 +44,7 @@ class UICounter(object):
 
     def place_center(self, x, y, width, height):
         pass
+        
         #count = len(self.ui_objects)
         #if count % 2 == 0:
             

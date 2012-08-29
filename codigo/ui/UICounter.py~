@@ -43,7 +43,11 @@ class UICounter(object):
             raise Exception("No se permite mas de " + str(ui_objs_count -1) + " pisos")
 
     def place_center(self, x, y, width, height):
-        pass
+        
+        
+        count = len(self.ui_objects)
+        if count % 2 == 0:
+            
 
     def draw(self, screen):
         for ui_object in self.ui_objects:
