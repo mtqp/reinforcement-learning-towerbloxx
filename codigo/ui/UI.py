@@ -15,17 +15,17 @@ class UI(object):
     CRANE = 1
     TOWER = 2
     COUNTER = 3
-    REFRESH_SLOW = 1
-    REFRESH_QUICK = 0.05
     WAIT = 3.5
     
-    def __init__(self, towerbloxx):
+    def __init__(self, towerbloxx, refresh_seconds):
         self.width = SCREEN_WIDTH
         self.height = SCREEN_HEIGHT
         self.size = self.width, self.height
         self.screen = pygame.display.set_mode(self.size)
         self.ui_objects = [UIBackground("background"), UICrane("crane"), UITower("tower"), UICounter("counter")] 
         self.towerbloxx = towerbloxx 
+        self.refresh_slow = refresh_seconds
+        self.refresh_quick = refresh_seconds / 20.0
         pygame.display.set_caption(UI.TITLE)
 
     def show(self):
@@ -46,11 +46,11 @@ class UI(object):
                 ui_tower.append_floor(floor)
                 
                 while not ui_tower.finished_dropping():
-                    self._refresh_screen(UI.REFRESH_QUICK)
+                    self._refresh_screen(self.refresh_quick)
                 
                 self.ui_objects[UI.CRANE] = UICrane("next_crane")
             else:
-                self._refresh_screen(UI.REFRESH_SLOW)
+                self._refresh_screen(self.refresh_slow)
 
         self._show_final_screen()
         self.close()
