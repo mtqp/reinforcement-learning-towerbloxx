@@ -21,7 +21,6 @@ class QAgent(Agent):
         sum_of_rewards = 0 #TODO: Eliminar
         
         while not (state.has_finished()):
-            print state.state_factors()
             action = self.choose_action(state) #usando una politica derivada de Q (eps-greedy en este caso)
             new_state, reward = self.environment.make_action(action)
 
@@ -33,9 +32,10 @@ class QAgent(Agent):
             sum_of_rewards += reward
 
        
-        #Info para debug: #TODO: Eliminar
-        print "Reward del episodio: " + str(sum_of_rewards)
-        print "-----------------------------------END OF EPISODE------------------------------------------"
-
+        
+        if sum_of_rewards > self.maxs:
+            self.maxs = sum_of_rewards
+            #Info para debug: #TODO: Eliminar
+            print "Reward del episodio: " + str(sum_of_rewards)
 
 

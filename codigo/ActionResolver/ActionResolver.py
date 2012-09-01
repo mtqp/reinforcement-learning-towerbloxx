@@ -24,14 +24,14 @@ class ActionResolver(object):
         self.environment = environment
 
     def resolve(self):
-        self.move_tower()
         self.move_crane()
+        self.move_tower()
         return self.reward()
 
     def move_crane(self):
         if abs(self.environment.crane_pos) == self.environment.POSITION_BOUND:
             self.environment.crane_direction = -sign(self.environment.crane_pos)
-        
+
         self.environment.crane_pos += self.environment.crane_direction
     
 

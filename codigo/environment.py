@@ -44,7 +44,7 @@ class Environment(object):
     def add_floor(self):
         self.tower_height += 1
         if self.tower_height > self.MAX_HEIGHT:
-            self.state().finish()
+            self.finish()
     
     def visible_factors(self):
         return self.tower_vel, self.tower_pos, self.crane_pos, self.crane_direction

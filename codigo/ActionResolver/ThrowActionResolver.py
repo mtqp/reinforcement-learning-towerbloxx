@@ -8,7 +8,7 @@ class ThrowActionResolver(ActionResolver):
     def resolve(self):
         self.throw()
         if self.environment.state().has_finished():
-            return self.environment.state(), self.reward()
+            return self.reward()
         else:
             return super(ThrowActionResolver,self).resolve()
         
@@ -44,7 +44,7 @@ class ThrowActionResolver(ActionResolver):
         return self._reward
 
     def update_tower_factor(self, tower_crane_difference):
-        alignment_difference_rate = tower_crane_difference / self.environment.tower_size #porcentaje de desvio del tiro entre (-1,1)
+        alignment_difference_rate = float(tower_crane_difference) / self.environment.tower_size #porcentaje de desvio del tiro entre (-1,1)
         self.environment.tower_factor += alignment_difference_rate
 
 

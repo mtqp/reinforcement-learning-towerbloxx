@@ -6,18 +6,17 @@ from environment import Environment
 class Agent(object):
     def __init__(self, environment):
         self.environment = environment
+        self.maxs = -100000 #Info para debug: #TODO: Eliminar
         
     def q_value(self, key):
-        print self.q_matrix.get(key, 0)
         return self.q_matrix.get(key, 0)
 
     def e_value(self,key):
         return self.elegibilities.get(key,0)
     
     def learn(self):
-        for i in range(1000):
+        for i in range(1000000):
             self.run_episode()
-            print "Episodio numero: " + str(i) #TODO: Elminar
             
     def choose_action(self, state):
         throw_val = self.q_value((state, Environment.THROW))
