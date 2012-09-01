@@ -6,7 +6,7 @@ class QAgent(Agent):
         self.q_matrix = {}
         self.alpha = 0.5
         self.gamma = 0.8
-        self.epsilon = 0.1
+        self.epsilon = 0.7
 
     def max_action(self, state):
         throw_val = self.q_value((state, Environment.THROW))
@@ -32,10 +32,7 @@ class QAgent(Agent):
             sum_of_rewards += reward
 
        
-        
         if sum_of_rewards > self.maxs:
             self.maxs = sum_of_rewards
             #Info para debug: #TODO: Eliminar
             print "Reward del episodio: " + str(sum_of_rewards)
-
-
