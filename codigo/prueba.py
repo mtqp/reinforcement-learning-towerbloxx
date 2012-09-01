@@ -3,8 +3,8 @@ from Agents.SarsaLambdaAgent import SarsaLambda
 from Agents.QAgent import QAgent
 
 env = Environment()
-sarsa = SarsaLambda(env,0.8)
-sarsa.learn()
-sarsa.what_did_i_learned()
+agent = QAgent(env)
+agent.learn()
+agent.what_did_i_learned()
 
 

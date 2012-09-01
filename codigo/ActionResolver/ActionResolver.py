@@ -34,21 +34,33 @@ class ActionResolver(object):
 
         self.environment.crane_pos += self.environment.crane_direction
     
-    def move_tower(self):        
-        unsigned_speed_without_factor = self.absolute_speed_by_position()
-        unsigned_speed = math.ceil(unsigned_speed_without_factor * abs(self.environment.tower_factor))
-        current_speed_direction = sign(self.environment.tower_vel)
-
-        self.environment.tower_vel = unsigned_speed * current_speed_direction
+    def move_tower(self):
+        new_angle, new_vel = self.pendulus_move()        
+        new_pos = self.next_tower_pos(new_angle)
         
-        #FALTA ALGUNA CUENTA ACA PARA CAMBIAR LA DIRECCION DE LA TORRE...
-        #if abs(self.environment.tower_pos) > self.environment.POSITION_BOUND * abs(self.environment.tower_factor):
-        #    self.tower_vel = self.tower_vel * (-1)
-        #    print "cambie"
-        #else:
-        #    print str(abs(self.environment.tower_pos)) + "..." + str(self.environment.POSITION_BOUND * abs(self.environment.tower_factor))
+        self.environment.tower_angle = new_angle
+        self.environment.tower_vel = new_vel
+        self.environment.tower_pos = new_pos
+    
+    def next_tower_pos(self, angle):
+        #Trigonometria (SOH-CAH-TOA) :)
+        distance_from_zero = math.tan(math.radians(angle)) * self.environment.tower_height #TAN * ADYACENTE
+        return int(round(distance_from_zero))
 
-    def absolute_speed_by_position(self):
-        #Idea: Imitar un pendulo... A medida que se acerca a las puntas, la velocidad disminuye y es maxima en el centro.
-        vel =  (5 - abs(self.environment.tower_pos)/10) 
-        return vel
+    def pendulus_move(self):
+        #Ver http://www.physics.ncsu.edu/courses/py299cp/Lesson10/index.html
+        delta_time = 0.1 #dt
+        old_theta = self.environment.tower_angle
+        old_omega = self.environment.tower_vel#angular velocity
+        gravity = 9.8 #g
+        height = self.environment.tower_height#l
+        
+        omega = old_omega - delta_time*gravity/height*math.sin(old_theta)
+        theta = old_theta + delta_time * old_omega
+        
+        return theta, omega
+
+    #def absolute_speed_by_position(self):
+    #    #Idea: Imitar un pendulo... A medida que se acerca a las puntas, la velocidad disminuye y es maxima en el centro.
+    #    vel =  (5 - abs(self.environment.tower_pos)/10.0) 
+    #    return vel
