@@ -34,13 +34,19 @@ class ActionResolver(object):
 
         self.environment.crane_pos += self.environment.crane_direction
     
-
     def move_tower(self):        
         unsigned_speed_without_factor = self.absolute_speed_by_position()
         unsigned_speed = math.ceil(unsigned_speed_without_factor * abs(self.environment.tower_factor))
         current_speed_direction = sign(self.environment.tower_vel)
 
         self.environment.tower_vel = unsigned_speed * current_speed_direction
+        
+        #FALTA ALGUNA CUENTA ACA PARA CAMBIAR LA DIRECCION DE LA TORRE...
+        #if abs(self.environment.tower_pos) > self.environment.POSITION_BOUND * abs(self.environment.tower_factor):
+        #    self.tower_vel = self.tower_vel * (-1)
+        #    print "cambie"
+        #else:
+        #    print str(abs(self.environment.tower_pos)) + "..." + str(self.environment.POSITION_BOUND * abs(self.environment.tower_factor))
 
     def absolute_speed_by_position(self):
         #Idea: Imitar un pendulo... A medida que se acerca a las puntas, la velocidad disminuye y es maxima en el centro.
