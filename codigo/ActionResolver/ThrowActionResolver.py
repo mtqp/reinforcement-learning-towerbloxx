@@ -19,7 +19,7 @@ class ThrowActionResolver(ActionResolver):
         tower_crane_difference = self.environment.crane_pos - self.environment.tower_pos 
         #diferencia entre centros (visto desde el punto de vista de la torre).
 
-        if abs(tower_crane_difference) > self.environment.tower_size/2:
+        if abs(tower_crane_difference) >= self.environment.tower_size:
             self._reward = self.MISSING_REWARD
         else:
             self.hit_effect(tower_crane_difference)
@@ -60,7 +60,7 @@ class ThrowActionResolver(ActionResolver):
     
     def update_tower_angle(self):
         #Trigonometria
-        distance_from_zero = self.environment.tower_pos #opuesto
+        distance_from_zero = abs(self.environment.tower_pos) #opuesto
         if distance_from_zero > 0:
             height = self.environment.tower_height #adyacente
             new_angle = math.atan(float(height)/distance_from_zero)

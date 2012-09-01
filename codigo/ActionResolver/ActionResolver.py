@@ -35,7 +35,7 @@ class ActionResolver(object):
 
         self.environment.crane_pos += self.environment.crane_direction
     
-    def move_tower(self):        
+    def move_tower(self):      
         new_angle, new_vel = self.pendulus_move()        
         new_pos = self.next_tower_pos(new_angle)
         

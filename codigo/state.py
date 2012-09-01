@@ -1,18 +1,21 @@
+#coding=utf-8
+
 class State(object):
-    _instances = {}
-    _misses = 0
-
-    def __new__(cls, environment):
-        factors = environment.visible_factors()
-
-        if not cls._instances.get(factors, None):
-            print str(factors) + " (" + str(len(cls._instances.keys())) +  " of: " + str(99*2*99*10) + " states)"
-            cls._instances[factors] = super(State, cls).__new__(cls, environment)
-        return cls._instances[factors]
-
 
     def __init__(self, environment):
         self._environment = environment
+    
+    def __eq__(self, obj):
+        return self.state_factors() == obj.state_factors()
+    
+    def __hash__(self):
+        """
+        Se tiene que definir para que se pueda usar como clave en un diccionario
+        o para usarse dentro de un conjunto. Además, si no están definidas las
+        comparaciones, sirve para decidir si 2 estados son iguales.
+        """
+        factors = self.state_factors()
+        return factors.__hash__()
 
     def has_finished(self):
         return self._environment._finished
