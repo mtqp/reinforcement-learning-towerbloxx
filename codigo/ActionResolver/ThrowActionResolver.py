@@ -44,7 +44,7 @@ class ThrowActionResolver(ActionResolver):
         return self._reward
 
     def update_tower_factor(self, tower_crane_difference):
+        old_tower_factor = self.environment.tower_factor
         alignment_difference_rate = float(tower_crane_difference) / self.environment.tower_size #porcentaje de desvio del tiro entre (-1,1)
         self.environment.tower_factor += alignment_difference_rate
-
-
+        return abs(self.environment.tower_factor) < abs(old_tower_factor)

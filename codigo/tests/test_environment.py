@@ -1,5 +1,5 @@
 #coding=utf-8
-
+import math
 import unittest
 
 from environment import Environment
@@ -39,3 +39,10 @@ class TestEnvironmentStates(unittest.TestCase):
         self.do_many(5, Environment.PASS)
         s,r = self.do(Environment.THROW)
         self.assertTrue(s.has_finished())
+
+    def test_not_missing_downgrade_stability_throw(self):
+        self.do_many(12, Environment.PASS)
+        s,r = self.do(Environment.THROW)
+        self.assertFalse(s.has_finished())
+        tower_speed, b, c, d = s.state_factors()
+        self.assertLess(tower_speed,0)
