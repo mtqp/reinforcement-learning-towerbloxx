@@ -8,7 +8,8 @@ class ActionResolver(object):
     MISSING_REWARD = -20
     TOWER_FELL_REWARD = -100
     DOWNGRADE_STABILITY_REWARD = 30
-    UPGRADE_STABILITY_REWARD = 1000
+    MANTAIN_STABILITY_REWARD = 1000
+    UPGRADE_STABILITY_REWARD = 800
     MAX_REWARD = UPGRADE_STABILITY_REWARD
     
     @classmethod
@@ -34,7 +35,7 @@ class ActionResolver(object):
 
         self.environment.crane_pos += self.environment.crane_direction
     
-    def move_tower(self):
+    def move_tower(self):        
         new_angle, new_vel = self.pendulus_move()        
         new_pos = self.next_tower_pos(new_angle)
         
@@ -44,7 +45,7 @@ class ActionResolver(object):
     
     def next_tower_pos(self, angle):
         #Trigonometria (SOH-CAH-TOA) :)
-        distance_from_zero = math.tan(math.radians(angle)) * self.environment.tower_height #TAN * ADYACENTE
+        distance_from_zero = math.tan(angle) * self.environment.tower_height #TAN * ADYACENTE
         return int(round(distance_from_zero))
 
     def pendulus_move(self):
@@ -59,8 +60,3 @@ class ActionResolver(object):
         theta = old_theta + delta_time * old_omega
         
         return theta, omega
-
-    #def absolute_speed_by_position(self):
-    #    #Idea: Imitar un pendulo... A medida que se acerca a las puntas, la velocidad disminuye y es maxima en el centro.
-    #    vel =  (5 - abs(self.environment.tower_pos)/10.0) 
-    #    return vel
