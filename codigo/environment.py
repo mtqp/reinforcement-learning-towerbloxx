@@ -5,7 +5,8 @@ from state import *
 
 class Environment(object):
 
-    MAX_HEIGHT = 3
+    INITIAL_HEIGHT = 10
+    MAX_HEIGHT = INITIAL_HEIGHT + 50
     
     THROW = 1
     PASS = 0
@@ -13,7 +14,7 @@ class Environment(object):
     POSITION_BOUND = 49
 
     def initialize(self, crane_dir=-1, crane_pos=-49, tower_vel=0, tower_pos=0, 
-                            tower_height=1, tower_factor=0, tower_size=10,
+                            tower_height=INITIAL_HEIGHT, tower_factor=0, tower_size=10,
                             tower_angle=0):
         self.crane_direction = crane_dir #{-1;1}
         self.crane_pos = crane_pos #[-49,49]

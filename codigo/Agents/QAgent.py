@@ -18,13 +18,13 @@ class QAgent(Agent):
 
     def run_episode(self):
         state = self.environment.start()
-        print "EPISODIO!"
         sum_of_rewards = 0 #TODO: Eliminar
-        
+        steps = 0
         while not (state.has_finished()):
+            steps += 1
             action = self.choose_action(state) #usando una politica derivada de Q (eps-greedy en este caso)
             new_state, reward = self.environment.make_action(action)
-            print new_state.state_factors(), " TIRO" if action else " PASO"
+#            print new_state.state_factors(), " TIRO" if action else " PASO"
 
             max_action = self.max_action(new_state)
 
@@ -32,3 +32,6 @@ class QAgent(Agent):
 
             state = new_state
             sum_of_rewards += reward
+
+
+        print sum_of_rewards, steps, (new_state.environment.tower_height - 10)

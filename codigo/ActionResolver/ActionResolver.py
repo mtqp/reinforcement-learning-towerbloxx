@@ -5,7 +5,7 @@ def sign(val):
 
 class ActionResolver(object): 
     PASS_REWARD = -1
-    MISSING_REWARD = -30
+    MISSING_REWARD = -50
     TOWER_FELL_REWARD = -300
     HIT_REWARD = 300
     
@@ -47,7 +47,7 @@ class ActionResolver(object):
 
     def pendulus_move(self):
         #Ver http://www.physics.ncsu.edu/courses/py299cp/Lesson10/index.html
-        delta_time = 0.1 #dt
+        delta_time = 1 #dt
         old_theta = self.environment.tower_angle
         old_omega = self.environment.tower_vel#angular velocity
         gravity = 9.8 #g

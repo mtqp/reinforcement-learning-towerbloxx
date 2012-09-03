@@ -2,11 +2,11 @@
 
 import math
 
-def alejar_de_cero(f):
+def far_from_cero(f):
     if f<0:
-        return math.floor(f)
+        return int(math.floor(f))
     else:
-        return math.ceil(f)
+        return int(math.ceil(f))
 
 
 class State(object):
@@ -34,8 +34,11 @@ class State(object):
         return factors
 
     def discretized_factors(self):
-        tower_pos = self.environment.tower_pos
-        tower_vel = self.environment.tower_vel
+        tower_pos = int(round(self.environment.tower_pos))
+        tower_vel = far_from_cero(self.environment.tower_vel*10)
         crane_pos = self.environment.crane_pos
         crane_dir = self.environment.crane_direction
         return tower_pos, tower_vel, crane_pos, crane_dir
+
+        #rend 1 digito
+        #*10 + redondear lejos de cero

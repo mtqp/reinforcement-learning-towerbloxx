@@ -35,9 +35,6 @@ class ThrowActionResolver(ActionResolver):
         if self.tower_fell():
             self._reward = self.TOWER_FELL_REWARD
             self.environment.finish()
-        
-        
-        
 
     def tower_fell(self):
         return math.degrees(self.environment.tower_angle) >= 45
@@ -51,10 +48,11 @@ class ThrowActionResolver(ActionResolver):
     
     def update_tower_angle(self):
         #Trigonometria
-        distance_from_zero = abs(self.environment.tower_pos) #opuesto
-        if distance_from_zero > 0:
+        tower_pos = self.environment.tower_pos #opuesto
+        new_angle = 0
+
+        if tower_pos != 0:
             height = self.environment.tower_height #adyacente
-            new_angle = math.atan(float(height)/distance_from_zero)
-        else:
-            new_angle = 0
+            new_angle = math.atan(tower_pos/float(height))
+            
         self.environment.tower_angle = new_angle
