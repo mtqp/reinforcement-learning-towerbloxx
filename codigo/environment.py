@@ -20,7 +20,6 @@ class Environment(object):
         self.tower_vel = tower_vel #[-5,5]
         self.tower_pos = tower_pos #[-49,49]
         self.tower_height = tower_height #Siempre mayor a 0
-        self.tower_factor = tower_factor #(-1,1)
         self.tower_size = tower_size #multiplos de 2
         self.tower_angle = tower_angle#OJO! Es en radianes, no en grados!
         self._finished = False
@@ -47,9 +46,6 @@ class Environment(object):
         self.tower_height += 1
         if self.tower_height > self.MAX_HEIGHT:
             self.finish()
-    
-    def visible_factors(self):
-        return self.tower_vel, self.tower_pos, self.crane_pos, self.crane_direction
 
     def state(self):
         return State(self)

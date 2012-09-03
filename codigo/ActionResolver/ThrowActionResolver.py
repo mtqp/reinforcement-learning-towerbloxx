@@ -25,38 +25,29 @@ class ThrowActionResolver(ActionResolver):
             self.hit_effect(tower_crane_difference)
 
     def hit_effect(self, tower_crane_difference):
-        has_improved_tower_factor = self.update_tower_factor(tower_crane_difference)#-1,0,1 son los valores posibles
+        self.environment.tower_pos = self.environment.crane_pos
+        self.environment.add_floor()
+        self.update_tower_angle()
+        self.update_tower_speed(tower_crane_difference)
+        
+        self._reward = self.HIT_REWARD
         
         if self.tower_fell():
-                self._reward = self.TOWER_FELL_REWARD
-                self.environment.finish()
-        else:
-            #ERROR: Para mi el reward deberia estar relacionado con cuan bien
-            # quedó la torre con respecto de antes no solo si mejoró, se
-            # mantuvo o empeoró...
-            if has_improved_tower_factor == 1:
-                self._reward = self.UPGRADE_STABILITY_REWARD
-            elif has_improved_tower_factor == -1:
-                self._reward = self.DOWNGRADE_STABILITY_REWARD
-            else:#improve_tower_factor == 0
-                self._reward = self.MANTAIN_STABILITY_REWARD
-            
-            self.environment.add_floor()
-            self.environment.tower_pos = self.environment.crane_pos
-            
-            self.update_tower_angle()
+            self._reward = self.TOWER_FELL_REWARD
+            self.environment.finish()
+        
+        
+        
 
     def tower_fell(self):
-        return abs(self.environment.tower_factor) > 0.99
+        return math.degrees(self.environment.tower_angle) >= 45
 
     def reward(self):
         return self._reward
 
-    def update_tower_factor(self, tower_crane_difference):
-        old_tower_factor = self.environment.tower_factor
+    def update_tower_speed(self, tower_crane_difference):
         alignment_difference_rate = float(tower_crane_difference) / self.environment.tower_size #porcentaje de desvio del tiro entre (-1,1)
-        self.environment.tower_factor += alignment_difference_rate
-        return cmp(abs(old_tower_factor),abs(self.environment.tower_factor))
+        self.environment.tower_vel += self.environment.tower_vel * alignment_difference_rate
     
     def update_tower_angle(self):
         #Trigonometria

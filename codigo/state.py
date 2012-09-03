@@ -1,9 +1,18 @@
 #coding=utf-8
 
+import math
+
+def alejar_de_cero(f):
+    if f<0:
+        return math.floor(f)
+    else:
+        return math.ceil(f)
+
+
 class State(object):
 
     def __init__(self, environment):
-        self._environment = environment
+        self.environment = environment
     
     def __eq__(self, obj):
         return self.state_factors() == obj.state_factors()
@@ -18,7 +27,15 @@ class State(object):
         return factors.__hash__()
 
     def has_finished(self):
-        return self._environment._finished
+        return self.environment._finished
     
     def state_factors(self):
-        return self._environment.visible_factors()
+        factors = self.discretized_factors()
+        return factors
+
+    def discretized_factors(self):
+        tower_pos = self.environment.tower_pos
+        tower_vel = self.environment.tower_vel
+        crane_pos = self.environment.crane_pos
+        crane_dir = self.environment.crane_direction
+        return tower_pos, tower_vel, crane_pos, crane_dir
