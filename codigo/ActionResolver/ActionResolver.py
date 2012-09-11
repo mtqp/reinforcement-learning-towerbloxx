@@ -4,12 +4,10 @@ def sign(val):
     return cmp(val,0) or 1
 
 class ActionResolver(object): 
-    PASS_REWARD = -5
-    MISSING_REWARD = -20
-    TOWER_FELL_REWARD = -100
-    DOWNGRADE_STABILITY_REWARD = 30
-    UPGRADE_STABILITY_REWARD = 1000
-    MAX_REWARD = UPGRADE_STABILITY_REWARD
+    PASS_REWARD = -1
+    MISSING_REWARD = -70
+    TOWER_FELL_REWARD = -600
+    HIT_REWARD = 500
     
     @classmethod
     def create_for(cls, environment, action):
@@ -34,21 +32,28 @@ class ActionResolver(object):
 
         self.environment.crane_pos += self.environment.crane_direction
     
-    def move_tower(self):        
-        unsigned_speed_without_factor = self.absolute_speed_by_position()
-        unsigned_speed = math.ceil(unsigned_speed_without_factor * abs(self.environment.tower_factor))
-        current_speed_direction = sign(self.environment.tower_vel)
-
-        self.environment.tower_vel = unsigned_speed * current_speed_direction
+    def move_tower(self):      
+        new_angle, new_vel = self.pendulus_move()        
+        new_pos = self.next_tower_pos(new_angle)
         
-        #FALTA ALGUNA CUENTA ACA PARA CAMBIAR LA DIRECCION DE LA TORRE...
-        #if abs(self.environment.tower_pos) > self.environment.POSITION_BOUND * abs(self.environment.tower_factor):
-        #    self.tower_vel = self.tower_vel * (-1)
-        #    print "cambie"
-        #else:
-        #    print str(abs(self.environment.tower_pos)) + "..." + str(self.environment.POSITION_BOUND * abs(self.environment.tower_factor))
+        self.environment.tower_angle = new_angle
+        self.environment.tower_vel = new_vel
+        self.environment.tower_pos = new_pos
+    
+    def next_tower_pos(self, angle):
+        #Trigonometria (SOH-CAH-TOA) :)
+        distance_from_zero = math.tan(angle) * self.environment.tower_height #TAN * ADYACENTE
+        return distance_from_zero
 
-    def absolute_speed_by_position(self):
-        #Idea: Imitar un pendulo... A medida que se acerca a las puntas, la velocidad disminuye y es maxima en el centro.
-        vel =  (5 - abs(self.environment.tower_pos)/10) 
-        return vel
+    def pendulus_move(self):
+        #Ver http://www.physics.ncsu.edu/courses/py299cp/Lesson10/index.html
+        delta_time = 1 #dt
+        old_theta = self.environment.tower_angle
+        old_omega = self.environment.tower_vel#angular velocity
+        gravity = 9.8 #g
+        height = float(self.environment.tower_height)#l
+        
+        omega = old_omega - delta_time*gravity/height*math.sin(old_theta)
+        theta = old_theta + delta_time * old_omega
+        
+        return theta, omega

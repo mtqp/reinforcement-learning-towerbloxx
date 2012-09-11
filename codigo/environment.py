@@ -5,7 +5,8 @@ from state import *
 
 class Environment(object):
 
-    MAX_HEIGHT = 3
+    INITIAL_HEIGHT = 10
+    MAX_HEIGHT = INITIAL_HEIGHT + 10
     
     THROW = 1
     PASS = 0
@@ -13,14 +14,15 @@ class Environment(object):
     POSITION_BOUND = 49
 
     def initialize(self, crane_dir=-1, crane_pos=-49, tower_vel=0, tower_pos=0, 
-                            tower_height=0, tower_factor=0, tower_size=10):
+                            tower_height=INITIAL_HEIGHT, tower_factor=0, tower_size=10,
+                            tower_angle=0):
         self.crane_direction = crane_dir #{-1;1}
         self.crane_pos = crane_pos #[-49,49]
         self.tower_vel = tower_vel #[-5,5]
         self.tower_pos = tower_pos #[-49,49]
-        self.tower_height = tower_height
-        self.tower_factor = tower_factor #(-1,1)
+        self.tower_height = tower_height #Siempre mayor a 0
         self.tower_size = tower_size #multiplos de 2
+        self.tower_angle = tower_angle#OJO! Es en radianes, no en grados!
         self._finished = False
 
     def  __init__(self, **kwargs):
@@ -45,9 +47,6 @@ class Environment(object):
         self.tower_height += 1
         if self.tower_height > self.MAX_HEIGHT:
             self.finish()
-    
-    def visible_factors(self):
-        return self.tower_vel, self.tower_pos, self.crane_pos, self.crane_direction
 
     def state(self):
         return State(self)
