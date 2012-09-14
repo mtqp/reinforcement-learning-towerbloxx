@@ -1,3 +1,6 @@
+
+from copy import deepcopy
+
 from Agent import *
 
 class SarsaLambda(Agent):
@@ -25,7 +28,7 @@ class SarsaLambda(Agent):
             for key in self.elegibilities.keys(): #ACA INVENTE! hay que chquear que este bien esta recorrida.. se supone que es para todo s,a
                 self.set_q_value(key, self.q_value(key) + self.alpha * delta * self.e_value(key))
                 self.set_elegibility(key, self.gamma * self.lambda_val * self.e_value(key))
-            state = new_state
+            state = deepcopy(new_state)
             action = new_action
 
 

@@ -16,16 +16,18 @@ class ThrowActionResolver(ActionResolver):
             return super(ThrowActionResolver,self).resolve()
         
     def throw(self):
-        tower_crane_difference = self.environment.crane_pos - self.environment.tower_pos 
+        tower_crane_difference = self.environment.crane_pos - self.environment.tower_pos
         #diferencia entre centros (visto desde el punto de vista de la torre).
 
         if abs(tower_crane_difference) >= self.environment.tower_size:
             self._reward = self.MISSING_REWARD
         else:
             self.hit_effect(tower_crane_difference)
+        self.environment.crane_pos = self.environment.INITIAL_CRANE_POS
 
     def hit_effect(self, tower_crane_difference):
         self.environment.tower_pos = self.environment.crane_pos
+        
         self.environment.add_floor()
         self.update_tower_angle()
         self.update_tower_speed(tower_crane_difference)
@@ -37,7 +39,7 @@ class ThrowActionResolver(ActionResolver):
             self.environment.finish()
 
     def tower_fell(self):
-        return math.degrees(self.environment.tower_angle) >= 45
+        return abs(math.degrees(self.environment.tower_angle)) >= 30
 
     def reward(self):
         return self._reward

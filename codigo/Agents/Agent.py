@@ -15,7 +15,7 @@ class Agent(object):
         return self.elegibilities.get(key,0)
     
     def learn(self):
-        for i in range(1):
+        for i in range(2000):
             self.run_episode()
             
     def choose_action(self, state):

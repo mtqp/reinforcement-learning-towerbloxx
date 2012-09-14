@@ -7,7 +7,7 @@ class QAgent(Agent):
     def __init__(self, environment):
         super(QAgent, self).__init__(environment)
         self.q_matrix = {}
-        self.alpha = 0.5
+        self.alpha = 0.4
         self.gamma = 0.8
         self.epsilon = 0.1
 
@@ -21,8 +21,8 @@ class QAgent(Agent):
 
     def run_episode(self):
         state = self.environment.start()
-        
-        print "\n\n\nEPISODIO"
+        rewards = 0
+        movements = 0
         
         while not (state.has_finished()):
             
@@ -32,7 +32,15 @@ class QAgent(Agent):
 
             self.q_matrix[(state, action)] = (1-self.alpha)*self.q_value((state,action)) + self.alpha*(reward + self.gamma*self.q_value((new_state, max_action)))
             
-            print '\t'.join(map(str,(state.state_factors() + (action, ))))
-            
+            #print '\t'.join(map(str,(state.state_factors() + (action, ))))
+            #print state.state_factors() + " action:" + str(action)
+            #
             state = deepcopy(new_state)
-
+            rewards += reward
+            movements += 1
+        
+        print str(rewards) + " (" + str(movements) + ")" + " (" + str(reward) + ")" + str(self.environment.tower_height)
+        #f = open("datos_rewards.txt","a")
+        #f.write(str(rewards)+"\n")
+        #f.close()
+        
