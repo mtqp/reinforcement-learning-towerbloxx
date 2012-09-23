@@ -5,7 +5,7 @@ from Agent import *
 
 RMAX_GAMMA_VALUE_ITER = 0.85
 RMAX_EPSILON_VALUE_ITER = 1
-RMAX = 300
+RMAX = 1000 #Hit reward
 class RMax(object):
   def __init__(self,environment):
     self.learned_rewards = {} #el acumulado, no el valor real
@@ -42,7 +42,6 @@ class RMax(object):
       self.reachable_states.add(next_state)
     
   def choose_action(self, state):
-    print state
     values = self.values
     Q = {} #los q estimados
     continue_iter = True #si seguimos iterando
@@ -75,11 +74,10 @@ class RMax(object):
     
     #bien, ya sali
     #ahora, dado el Q, quiero la accion que maximice
-    qMax = max([(Q.get((a,state)) or 0.0) for a in [0,1]])
-    if (Q.get((a,state))or 0.0) == qMax:
-      return 1
-    else:
+    if (Q.get((0,state) or 0)) > (Q.get((1,state)) or 0):
       return 0
+    else:
+      return 1
 
   def R_value(self, action, state): #dado un estado y una accion, su reward empirico, o rmax si alguno no conocido
     reward = self.learned_rewards.get((action,state))
