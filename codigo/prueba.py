@@ -1,8 +1,7 @@
 from environment import Environment
 from Agents.SarsaLambdaAgent import SarsaLambda
 from Agents.QAgent import QAgent
-
+from Agents.RMax import RMax
 env = Environment()
-agent = QAgent(env)
+agent = RMax(env)
 agent.learn()
-agent.what_did_i_learned()
