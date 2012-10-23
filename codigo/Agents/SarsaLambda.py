@@ -31,5 +31,5 @@ class SarsaLambda(Agent):
             rewards += reward
             movements += 1
         
-        print "crane_pos: " + str(self.environment.crane_pos) +", sum_rewards: "+ str(rewards) + " in " + str(movements) + " movements with last reward: " + str(reward) + " Height:" + str(self.environment.tower_height)
+        return rewards
         
