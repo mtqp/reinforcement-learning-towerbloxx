@@ -3,15 +3,13 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 from environment import Environment
-from Agents.SarsaLambda import SarsaLambda
+from Agents.QAgent import QAgent
 
 
 env = Environment()
-agent = SarsaLambda(0.8,env)
+agent = QAgent(env)
 
-data = []
-for i in range(100):
-  data.append(agent.run_episode())
+data = range(1000)
 
 fig = plt.figure()
 ax = fig.add_subplot(111)

@@ -31,14 +31,11 @@ class QAgent(Agent):
 
             self.q_matrix[(state, action)] = (1-self.alpha)*self.q_value((state,action)) + self.alpha*(reward + self.gamma*self.q_value((new_state, max_action)))
             
-            #print '\t'.join(map(str,(state.state_factors() + (action, ))))
-            print state.state_factors() + " action:" + str(action)
-            #
             state = deepcopy(new_state)
             rewards += reward
             movements += 1
         
-        print str(rewards) + " (" + str(movements) + ")" + " (" + str(reward) + ")" + str(self.environment.tower_height)
+        return rewards        
         #f = open("datos_rewards.txt","a")
         #f.write(str(rewards)+"\n")
         #f.close()
