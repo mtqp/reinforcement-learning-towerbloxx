@@ -6,6 +6,8 @@ from Agent import *
 RMAX_GAMMA_VALUE_ITER = 0.85
 RMAX_EPSILON_VALUE_ITER = 1
 RMAX = 1000 #Hit reward
+LIMIT = 1000
+
 class RMax(object):
   def __init__(self,environment):
     self.learned_rewards = {} #el acumulado, no el valor real
@@ -23,44 +25,44 @@ class RMax(object):
   
   def run_episode(self):
     state = self.environment.start()
-    while not (state.has_finished()):
+    limit = 0
+    while not (state.has_finished() or limit > LIMIT):
       action = self.choose_action(state)
       new_state, reward = self.environment.make_action(action)
       self.update_model(state, action, reward, new_state)
       state = deepcopy(new_state)
+      limit += 1
+
 
   def update_model(self, state, action, reward, next_state):
     self.increase_count(action, state) #actualizo cantidad de veces que hicimos de estado a accion
     self.update_R_value(action, state, reward) #actualizo reward
     self.increase_T_value(action, state, next_state) #actualizo chance de nuevo estado dado accion estado
+    
     #actualizo visitados (blancos)
     self.visited_states.add(state)
     #actualizo alcanzables (blancos o grises)
     self.reachable_states.add(state)
     #actualizo alcanzables (blancos o grises)
-    if not next_state.has_finished(): 
-      self.reachable_states.add(next_state)
-    
+    self.reachable_states.add(next_state)
+
   def choose_action(self, state):
     values = self.values
-    Q = {} #los q estimados
-    continue_iter = True #si seguimos iterando
+    Q = {}
+    continue_iter = True
     while continue_iter:
       for visited in self.visited_states:
-        for action in [0,1]: #actions
-          partial_Q = self.R_value(action, visited) #inicializo con el reward dado el estado y la accion
-          for possible in self.reachable_states: #todos los estados que se que existen
+        for action in [0,1]: 
+          partial_Q = self.R_value(action, visited)
+          for possible in self.reachable_states:
             if values.get(possible) is None:
               value_to_use = 0.0 if possible in self.visited_states else self.vmax #si no esta, uso vmax
             else:
               previous, current = values.get(possible) #si esta, uso el previous
-              value_to_use = previous #da lo mismo cual usar entre previous y current, a esta altura son lo mismo
-              #a continuacion, cambio current para comparar con el error, pero, al final de la iteracion
-              #seteo el previous con el current
+              value_to_use = previous 
             partial_Q += RMAX_GAMMA_VALUE_ITER * self.T_value(action, visited, possible) * value_to_use
-            #pongo el valor anterior si es aproximable, o vmax si no es aproximable (si nunca voy a saber nada)
-            #todo multiplicado por el gamma, obvio
-          Q[(action,visited)] = partial_Q
+            
+            Q[(action,visited)] = partial_Q
         previous, current = values.get(visited) or (0.0,0.0)
         values[visited] = previous, max([Q[(a,visited)] for a in [0,1]]) #el valor es el maximo de los Q
         #actualizo el current con el maximo de los Q, o sea, el V obtenido

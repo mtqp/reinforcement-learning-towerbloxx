@@ -6,7 +6,8 @@ from environment import Environment
 class Agent(object):
     def __init__(self, environment):
         self.environment = environment
-        self.maxs = -100000 #Info para debug: #TODO: Eliminar
+        self.q_matrix = {}
+        self.elegibilities = {}
         
     def q_value(self, key):
         return self.q_matrix.get(key, 0)
@@ -15,7 +16,7 @@ class Agent(object):
         return self.elegibilities.get(key,0)
     
     def learn(self):
-        for i in range(2000):
+        for i in range(100000):
             self.run_episode()
             
     def choose_action(self, state):

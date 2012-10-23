@@ -23,20 +23,23 @@ class ThrowActionResolver(ActionResolver):
             self._reward = self.MISSING_REWARD
         else:
             self.hit_effect(tower_crane_difference)
-        self.environment.crane_pos = self.environment.INITIAL_CRANE_POS
+            
 
     def hit_effect(self, tower_crane_difference):
         self.environment.tower_pos = self.environment.crane_pos
         
-        self.environment.add_floor()
         self.update_tower_angle()
-        self.update_tower_speed(tower_crane_difference)
         
         self._reward = self.HIT_REWARD
         
         if self.tower_fell():
             self._reward = self.TOWER_FELL_REWARD
             self.environment.finish()
+        else:
+            self.environment.add_floor()
+            self.update_tower_speed(tower_crane_difference)
+
+
 
     def tower_fell(self):
         return abs(math.degrees(self.environment.tower_angle)) >= 30

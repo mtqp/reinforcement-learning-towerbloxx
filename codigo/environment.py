@@ -5,9 +5,9 @@ from state import *
 
 class Environment(object):
 
-    INITIAL_HEIGHT = 10
+    INITIAL_HEIGHT = 50
     INITIAL_CRANE_POS = -49
-    MAX_HEIGHT = INITIAL_HEIGHT + 2
+    MAX_HEIGHT = INITIAL_HEIGHT + 5
     
     THROW = 1
     PASS = 0
@@ -48,6 +48,10 @@ class Environment(object):
         self.tower_height += 1
         if self.tower_height >= self.MAX_HEIGHT:
             self.finish()
+        else:
+            self.crane_dir = 1
+            self.crane_pos = self.INITIAL_CRANE_POS
+
 
     def state(self):
         return State(self)

@@ -6,7 +6,6 @@ from Agent import *
 class QAgent(Agent):
     def __init__(self, environment):
         super(QAgent, self).__init__(environment)
-        self.q_matrix = {}
         self.alpha = 0.4
         self.gamma = 0.8
         self.epsilon = 0.1
