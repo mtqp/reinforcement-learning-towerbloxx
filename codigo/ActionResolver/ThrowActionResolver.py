@@ -40,9 +40,8 @@ class ThrowActionResolver(ActionResolver):
             self.update_tower_speed(tower_crane_difference)
 
 
-
     def tower_fell(self):
-        return abs(math.degrees(self.environment.tower_angle)) >= 30
+        return abs(math.degrees(self.environment.tower_angle)) >= 40
 
     def reward(self):
         return self._reward

@@ -34,7 +34,7 @@ class QAgent(Agent):
             state = deepcopy(new_state)
             rewards += reward
             movements += 1
-        
+        print len(self.q_matrix.keys())
         return rewards        
         #f = open("datos_rewards.txt","a")
         #f.write(str(rewards)+"\n")

@@ -4,17 +4,20 @@ import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 from environment import Environment
 from Agents.QAgent import QAgent
+from Agents.SarsaLambda import SarsaLambda
 
+totalRefuerzos = 0
+movimientos = 0
 
 env = Environment()
-agent = QAgent(env)
+agent = SarsaLambda(0.5,env)
 
-data = range(1000)
+data = range(100)
 
 fig = plt.figure()
 ax = fig.add_subplot(111)
-line, = ax.plot(np.array(data))
-ax.set_ylim(-15000, 15000)
+line, = ax.plot(np.array(data), 'r>')
+ax.set_ylim(-150000, 150000)
 
 def update(data):
     line.set_ydata(data)
@@ -22,13 +25,19 @@ def update(data):
 
 def data_gen():
     global data
+    global totalRefuerzos
+    global movimientos
     global agent
     while True:
       data = data[1:]
-      data.append(agent.run_episode())
+      ref = agent.run_episode()
+      totalRefuerzos += ref
+      movimientos += 1
+      #print totalRefuerzos/float(movimientos)
+      data.append(ref)
       yield np.array(data)
 
-ani = animation.FuncAnimation(fig, update, data_gen, interval=100)
+ani = animation.FuncAnimation(fig, update, data_gen, interval=1)
 plt.show()
 
 #env = Environment()

@@ -5,7 +5,7 @@ from Agent import *
 
 RMAX_GAMMA_VALUE_ITER = 0.85
 RMAX_EPSILON_VALUE_ITER = 1
-RMAX = 1000 #Hit reward
+RMAX = 2000 #Hit reward
 LIMIT = 1000
 
 class RMax(object):

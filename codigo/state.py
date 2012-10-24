@@ -13,18 +13,14 @@ class State(object):
 
     def __init__(self, environment):
         self.environment = environment
+    def __str__(self):
+        return self.state_factors()
     
-    def __eq__(self, obj):
-        return self.state_factors() == obj.state_factors()
-    
+    def __cmp__(self, other):
+        return cmp(str(self), str(other))
+
     def __hash__(self):
-        """
-        Se tiene que definir para que se pueda usar como clave en un diccionario
-        o para usarse dentro de un conjunto. Además, si no están definidas las
-        comparaciones, sirve para decidir si 2 estados son iguales.
-        """
-        factors = self.state_factors()
-        return factors.__hash__()
+        return hash(str(self))
 
     def has_finished(self):
         return self.environment._finished

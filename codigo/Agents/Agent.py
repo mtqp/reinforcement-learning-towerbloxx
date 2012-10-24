@@ -10,13 +10,13 @@ class Agent(object):
         self.elegibilities = {}
         
     def q_value(self, key):
-        return self.q_matrix.get(key, 0)
+        return self.q_matrix.get(key, 0.0)
 
     def e_value(self,key):
-        return self.elegibilities.get(key,0)
+        return self.elegibilities.get(key,0.0)
     
     def learn(self):
-        for i in range(100000):
+        for i in range(1000):
             self.run_episode()
             
     def choose_action(self, state):
