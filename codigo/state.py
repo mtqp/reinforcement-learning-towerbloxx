@@ -10,9 +10,9 @@ def far_from_cero(f):
 
 
 class State(object):
-
     def __init__(self, environment):
         self.environment = environment
+        
     def __str__(self):
         return self.state_factors()
     

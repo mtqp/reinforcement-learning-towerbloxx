@@ -3,6 +3,7 @@ import math
 import unittest
 
 from environment import Environment
+from state import State
 
 class TestEnvironmentStates(unittest.TestCase):
 
@@ -47,3 +48,22 @@ class TestEnvironmentStates(unittest.TestCase):
         self.assertFalse(s.has_finished())
         tower_angle = s.environment.tower_angle
         self.assertLess(tower_angle,0)
+    
+    def test_states_can_be_dictionary_keys(self):
+        a = {}
+        s = State(Environment())
+        a[s] = 1
+        self.assertEqual(a[s],1)
+        s2 = State(Environment())
+        a[s2] = 2
+        self.assertEqual(a[s2],2)
+
+
+
+
+
+
+
+
+
+
