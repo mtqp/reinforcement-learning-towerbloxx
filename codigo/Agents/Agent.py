@@ -9,7 +9,7 @@ class Agent(object):
         self.q_matrix = {}
         self.elegibilities = {}
         self.epsilon = 0.01
-        self.alpha = 0.3
+        self.alpha = 0.6
         self.gamma = 0.8
     
         

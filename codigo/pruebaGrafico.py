@@ -19,7 +19,7 @@ data = range(100)
 fig = plt.figure()
 ax = fig.add_subplot(111)
 line, = ax.plot(np.array(data), 'g>')
-ax.set_ylim(-50000, 50000)
+ax.set_ylim(-2000, 2000)
 
 def update(data):
     line.set_ydata(data)
