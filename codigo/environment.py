@@ -7,7 +7,7 @@ class Environment(object):
 
     INITIAL_HEIGHT = 60
     INITIAL_CRANE_POS = -49
-    MAX_HEIGHT = INITIAL_HEIGHT + 2
+    MAX_HEIGHT = INITIAL_HEIGHT + 4
     
     THROW = 1
     PASS = 0

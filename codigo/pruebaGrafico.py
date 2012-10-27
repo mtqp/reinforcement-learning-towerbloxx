@@ -32,7 +32,7 @@ def data_gen():
       ref = agent.run_episode()
       totalRefuerzos += ref
       movimientos += 1
-      print totalRefuerzos/float(movimientos)
+      print str(movimientos) + ": " + str(ref) + " prom:" + str(totalRefuerzos/float(movimientos))
       data.append(ref)
       yield np.array(data)
 
