@@ -6,9 +6,6 @@ from Agent import *
 class QAgent(Agent):
     def __init__(self, environment):
         super(QAgent, self).__init__(environment)
-        self.alpha = 0.4
-        self.gamma = 0.8
-        self.epsilon = 0.1
 
     def max_action(self, state):
         throw_val = self.q_value((state, Environment.THROW))
@@ -28,13 +25,12 @@ class QAgent(Agent):
             action = self.choose_action(state) #usando una politica derivada de Q (eps-greedy en este caso)
             new_state, reward = self.environment.make_action(action)
             max_action = self.max_action(new_state)
-
-            self.q_matrix[(state, action)] = (1-self.alpha)*self.q_value((state,action)) + self.alpha*(reward + self.gamma*self.q_value((new_state, max_action)))
+            key = (state,action)
+            self.set_q_value(key, (1-self.alpha)*self.q_value((state,action)) + self.alpha*(reward + self.gamma*self.q_value((new_state, max_action))))
             
             state = deepcopy(new_state)
             rewards += reward
             movements += 1
-        print len(self.q_matrix.keys())
         return rewards        
         #f = open("datos_rewards.txt","a")
         #f.write(str(rewards)+"\n")

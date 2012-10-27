@@ -4,19 +4,22 @@ import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 from environment import Environment
 from Agents.SarsaLambda import SarsaLambda
+from Agents.QAgent import QAgent
 
 totalRefuerzos = 0
 movimientos = 0
 
 env = Environment()
-agent = SarsaLambda(0.2,env)
+agent = QAgent(env)
+#agent = SarsaLambda(0.2,env)
+
 
 data = range(100)
 
 fig = plt.figure()
 ax = fig.add_subplot(111)
 line, = ax.plot(np.array(data), 'g>')
-ax.set_ylim(-1500, 1500)
+ax.set_ylim(-50000, 50000)
 
 def update(data):
     line.set_ydata(data)

@@ -7,10 +7,7 @@ class SarsaLambda(Agent):
     def __init__(self, lambda_val, environment):
         super(SarsaLambda, self).__init__(environment)
         self.lambda_val = lambda_val
-        self.alpha = 0.3
-        self.gamma = 0.8
-        self.epsilon = 0.02
-    
+
     def run_episode(self):
         state = self.environment.start()
         rewards = 0

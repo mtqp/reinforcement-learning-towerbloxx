@@ -8,6 +8,10 @@ class Agent(object):
         self.environment = environment
         self.q_matrix = {}
         self.elegibilities = {}
+        self.epsilon = 0.01
+        self.alpha = 0.3
+        self.gamma = 0.8
+    
         
     def q_value(self, key):
         state,action = key
@@ -19,6 +23,9 @@ class Agent(object):
 
     def set_q_value(self,(key),value):
         state,action = key
+        old = self.q_matrix.get((str(state),action),"nfound")
+        if  old == "nfound":
+            print str(state)
         self.q_matrix[(str(state),action)] = value
 
     def set_e_value(self,key,value):
