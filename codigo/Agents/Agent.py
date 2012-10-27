@@ -15,10 +15,10 @@ class Agent(object):
     def e_value(self,state):
         return self.elegibilities.get(str(key),0.0)
 
-    def set_q_value(self,state,value)
+    def set_q_value(self,state,value):
         self.q_matrix[str(state)] = value
 
-    def set_e_value(self,state,value)
+    def set_e_value(self,state,value):
         self.elegibilities[str(state)] = value
 
     def learn(self):
