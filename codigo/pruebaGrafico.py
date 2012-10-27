@@ -3,21 +3,20 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 from environment import Environment
-from Agents.QAgent import QAgent
 from Agents.SarsaLambda import SarsaLambda
 
 totalRefuerzos = 0
 movimientos = 0
 
 env = Environment()
-agent = SarsaLambda(0.5,env)
+agent = SarsaLambda(0.2,env)
 
 data = range(100)
 
 fig = plt.figure()
 ax = fig.add_subplot(111)
-line, = ax.plot(np.array(data), 'r>')
-ax.set_ylim(-150000, 150000)
+line, = ax.plot(np.array(data), 'g>')
+ax.set_ylim(-1500, 1500)
 
 def update(data):
     line.set_ydata(data)
@@ -33,7 +32,7 @@ def data_gen():
       ref = agent.run_episode()
       totalRefuerzos += ref
       movimientos += 1
-      #print totalRefuerzos/float(movimientos)
+      print totalRefuerzos/float(movimientos)
       data.append(ref)
       yield np.array(data)
 

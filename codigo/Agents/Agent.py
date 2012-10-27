@@ -9,17 +9,21 @@ class Agent(object):
         self.q_matrix = {}
         self.elegibilities = {}
         
-    def q_value(self, state):
-        return self.q_matrix.get(str(state), 0.0)
+    def q_value(self, key):
+        state,action = key
+        return self.q_matrix.get((str(state),action), 0.0)
 
-    def e_value(self,state):
-        return self.elegibilities.get(str(state),0.0)
+    def e_value(self,key):
+        state,action = key
+        return self.elegibilities.get((str(state),action),0.0)
 
-    def set_q_value(self,state,value):
-        self.q_matrix[str(state)] = value
+    def set_q_value(self,(key),value):
+        state,action = key
+        self.q_matrix[(str(state),action)] = value
 
-    def set_e_value(self,state,value):
-        self.elegibilities[str(state)] = value
+    def set_e_value(self,key,value):
+        state,action = key
+        self.elegibilities[(str(state),action)] = value
 
     def learn(self):
         for i in range(1000):

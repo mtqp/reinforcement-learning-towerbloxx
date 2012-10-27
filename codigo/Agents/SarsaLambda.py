@@ -31,6 +31,5 @@ class SarsaLambda(Agent):
             action = new_action
             rewards += reward
             movements += 1
-
         return rewards
         
