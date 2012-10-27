@@ -10,10 +10,10 @@ class Agent(object):
         self.elegibilities = {}
         
     def q_value(self, state):
-        return self.q_matrix.get(str(key), 0.0)
+        return self.q_matrix.get(str(state), 0.0)
 
     def e_value(self,state):
-        return self.elegibilities.get(str(key),0.0)
+        return self.elegibilities.get(str(state),0.0)
 
     def set_q_value(self,state,value):
         self.q_matrix[str(state)] = value
