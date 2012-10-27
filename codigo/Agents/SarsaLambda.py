@@ -24,8 +24,8 @@ class SarsaLambda(Agent):
             
             self.set_e_value((state,action),1.0)
             for k in self.elegibilities.keys():
-                self.set_q_value[k] = self.q_value(k) + self.alpha * delta * self.e_value(k)
-                self.set_e_value(k,self.e_value(k) * self.gamma * self.lambda_val)
+                self.set_q_value(k, self.q_value(k) + self.alpha * delta * self.e_value(k))
+                self.set_e_value(k, self.e_value(k) * self.gamma * self.lambda_val)
 
             state = deepcopy(new_state)
             action = new_action
