@@ -22,12 +22,10 @@ class SarsaLambda(Agent):
             new_action = self.choose_action(new_state)
             delta = reward + self.gamma * self.q_value((new_state, new_action)) - self.q_value((state,action))
             
-            self.elegibilities[(state,action)] = 1.0
+            self.set_e_value((state,action),1.0)
             for k in self.elegibilities.keys():
-                print k
-                print self.elegibilities.keys()
-                #self.q_matrix[k] = self.q_value(k) + self.alpha * delta * self.e_value(k)
-                self.elegibilities[k] = self.elegibilities[k] * self.gamma * self.lambda_val
+                self.set_q_value[k] = self.q_value(k) + self.alpha * delta * self.e_value(k)
+                self.set_e_value(k,self.e_value(k) * self.gamma * self.lambda_val)
 
             state = deepcopy(new_state)
             action = new_action

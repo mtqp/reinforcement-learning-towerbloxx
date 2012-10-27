@@ -12,15 +12,6 @@ def far_from_cero(f):
 class State(object):
     def __init__(self, environment):
         self.environment = environment
-        
-    def __str__(self):
-        return self.state_factors()
-    
-    def __cmp__(self, other):
-        return cmp(str(self), str(other))
-
-    def __hash__(self):
-        return hash(str(self))
 
     def has_finished(self):
         return self.environment._finished
@@ -40,3 +31,12 @@ class State(object):
         return self.environment.tower_pos, self.environment.tower_vel, self.environment.crane_pos, self.environment.crane_direction
         #rend 1 digito
         #*10 + redondear lejos de cero
+
+    def __str__(self):
+        return self.state_factors()
+    
+    def __eq__(self, other):
+        return str(self) == str(other)
+
+    def __hash__(self):
+        return hash(self.state_factors())
