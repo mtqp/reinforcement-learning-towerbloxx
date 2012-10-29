@@ -10,15 +10,13 @@ env = Environment()
 agent = QAgent(env)
 #agent = SarsaLambda(0.2,env)
 
-data = [0 for i in range(100)]
-data2 = [0 for i in range(100)]
+data = [0 for i in range(1000)]
 fig = plt.figure()
 ax = fig.add_subplot(111)
 
 line, = ax.plot(np.array(data))
-line2, = ax.plot(np.array(data2))
 
-ax.set_ylim(-100, 100)
+ax.set_ylim(-200, 200)
 
 def update(data):
     line.set_ydata(data)
@@ -32,14 +30,12 @@ def data_gen():
     max_ref = 0
     while True:
       data = data[1:]
-      data2 = data2[1:]
       ref = agent.run_episode()
       totalRefuerzos += ref
       if ref > max_ref:
         max_ref = ref
       movimientos += 1
       print str(movimientos) + ": " + str(ref) + " prom:" + str(totalRefuerzos/float(movimientos)) + " Max: " + str(max_ref)
-      data2.append(max_ref)
       data.append(ref)
       yield np.array(data)
 
