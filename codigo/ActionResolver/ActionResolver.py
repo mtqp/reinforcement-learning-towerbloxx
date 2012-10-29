@@ -5,9 +5,9 @@ def sign(val):
 
 class ActionResolver(object): 
     PASS_REWARD = -1
-    MISSING_REWARD = -50
-    TOWER_FELL_REWARD = -500
-    HIT_REWARD = 100
+    MISSING_REWARD = -5
+    TOWER_FELL_REWARD = -50
+    HIT_REWARD = 50
     
     @classmethod
     def create_for(cls, environment, action):

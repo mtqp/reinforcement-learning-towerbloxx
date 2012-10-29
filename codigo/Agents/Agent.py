@@ -8,9 +8,9 @@ class Agent(object):
         self.environment = environment
         self.q_matrix = {}
         self.elegibilities = {}
-        self.epsilon = 0.01
-        self.alpha = 0.6
-        self.gamma = 0.8
+        self.epsilon = 0.001
+        self.alpha = 0.8
+        self.gamma = 0.7
     
         
     def q_value(self, key):
