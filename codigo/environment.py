@@ -7,7 +7,7 @@ class Environment(object):
 
     INITIAL_HEIGHT = 60
     INITIAL_CRANE_POS = -49
-    MAX_HEIGHT = INITIAL_HEIGHT + 5
+    MAX_HEIGHT = INITIAL_HEIGHT + 20
     
     THROW = 1
     PASS = 0
@@ -28,6 +28,7 @@ class Environment(object):
 
     def  __init__(self, **kwargs):
         self.initialize(**kwargs)
+        self.states_action_pair_count = 0
 
     def finish(self):
         self._finished = True
@@ -52,8 +53,8 @@ class Environment(object):
             self.crane_dir = 1
             self.crane_pos = self.INITIAL_CRANE_POS
 
-
     def state(self):
         return State(self)
+
 
     

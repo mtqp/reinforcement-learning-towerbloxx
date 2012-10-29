@@ -4,10 +4,10 @@ def sign(val):
     return cmp(val,0) or 1
 
 class ActionResolver(object): 
-    PASS_REWARD = -1
-    MISSING_REWARD = -5
+    PASS_REWARD = -10
+    MISSING_REWARD = -10
     TOWER_FELL_REWARD = -50
-    HIT_REWARD = 50
+    HIT_REWARD = 5
     
     @classmethod
     def create_for(cls, environment, action):
