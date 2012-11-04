@@ -4,14 +4,14 @@ from random import random
 from environment import Environment
 
 class Agent(object):
-    def __init__(self, environment):
+    def __init__(self, environment, kargs):
         self.environment = environment
         self.q_matrix = {}
         self.elegibilities = {}
-        self.epsilon = 0.01
-        self.alpha = 0.8
-        self.gamma = 0.8
-    
+        self.epsilon = kargs["epsilon"]
+        self.alpha = kargs["alpha"]
+        self.gamma = kargs["gamma"]
+        print "Agent initialized with: epsilon: " + str(self.epsilon) + " alpha: "+ str(self.alpha) +" gamma: "+ str(self.gamma)
         
     def q_value(self, key):
         state,action = key

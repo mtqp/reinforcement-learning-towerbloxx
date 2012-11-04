@@ -5,9 +5,7 @@ from state import *
 
 class Environment(object):
 
-    INITIAL_HEIGHT = 60
     INITIAL_CRANE_POS = -49
-    MAX_HEIGHT = INITIAL_HEIGHT + 20
     
     THROW = 1
     PASS = 0
@@ -15,13 +13,14 @@ class Environment(object):
     POSITION_BOUND = 49
 
     def initialize(self, crane_dir=-1, crane_pos=INITIAL_CRANE_POS, tower_vel=0, tower_pos=0, 
-                            tower_height=INITIAL_HEIGHT, tower_factor=0, tower_size=10,
-                            tower_angle=0):
+                            tower_height=70, tower_factor=0, tower_size=10,
+                            tower_angle=0, max_height = 60):
         self.crane_direction = crane_dir #{-1;1}
         self.crane_pos = crane_pos #[-49,49]
         self.tower_vel = tower_vel #[-5,5]
         self.tower_pos = tower_pos #[-49,49]
         self.tower_height = tower_height #Siempre mayor a 0
+        self.max_height = max_height
         self.tower_size = tower_size #multiplos de 2
         self.tower_angle = tower_angle#OJO! Es en radianes, no en grados!
         self._finished = False
@@ -47,7 +46,7 @@ class Environment(object):
 
     def add_floor(self):
         self.tower_height += 1
-        if self.tower_height >= self.MAX_HEIGHT:
+        if self.tower_height >= self.max_height:
             self.finish()
         else:
             self.crane_dir = 1

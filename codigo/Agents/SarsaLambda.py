@@ -4,9 +4,9 @@ from copy import deepcopy
 from Agent import *
 
 class SarsaLambda(Agent):
-    def __init__(self, lambda_val, environment):
-        super(SarsaLambda, self).__init__(environment)
-        self.lambda_val = lambda_val
+    def __init__(self, environment, **args):
+        super(SarsaLambda, self).__init__(environment, args)
+        self.lambda_val = args["lambda_val"]
 
     def run_episode(self):
         state = self.environment.start()

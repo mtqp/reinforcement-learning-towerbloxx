@@ -4,8 +4,8 @@ from copy import deepcopy
 from Agent import *
 
 class QAgent(Agent):
-    def __init__(self, environment):
-        super(QAgent, self).__init__(environment)
+    def __init__(self, environment, **args):
+        super(QAgent, self).__init__(environment, args)
 
     def max_action(self, state):
         throw_val = self.q_value((state, Environment.THROW))
