@@ -7,7 +7,7 @@ class ActionResolver(object):
     PASS_REWARD = -10
     MISSING_REWARD = -30
     TOWER_FELL_REWARD = -5000
-    HIT_REWARD = 100
+    HIT_REWARD = 1000
     
     @classmethod
     def create_for(cls, environment, action):
