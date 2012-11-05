@@ -4,12 +4,7 @@ from Agents.SarsaLambda import SarsaLambda
 
 def qAgent(pisos, desde, alpha, gamma, epsilon):
   env = Environment(tower_height = desde, max_height = desde + pisos)
-  return QAgent(env, pisos = pisos, alpha = alpha, gamma = gamma, epsilon = epsilon)
-
-
-def sAgent(pisos, desde, alpha, gamma, epsilon, lambda_val = 0):
-  env = Environment(tower_height = desde, max_height = desde + pisos)
-  return SarsaLambda(env, alpha = alpha, gamma = gamma, epsilon = epsilon, lambda_val = lambda_val)
+  return QAgent(env, alpha = alpha, gamma = gamma, epsilon = epsilon)
 
 
 totalRefuerzos = 0

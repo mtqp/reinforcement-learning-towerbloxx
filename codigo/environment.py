@@ -5,28 +5,28 @@ from state import *
 
 class Environment(object):
 
-    INITIAL_CRANE_POS = -49
-    
     THROW = 1
     PASS = 0
+
+    INITIAL_CRANE_POS = -49
     
     POSITION_BOUND = 49
 
-    def initialize(self, crane_dir=-1, crane_pos=INITIAL_CRANE_POS, tower_vel=0, tower_pos=0, 
-                            tower_height=70, tower_factor=0, tower_size=10,
-                            tower_angle=0, max_height = 60):
-        self.crane_direction = crane_dir #{-1;1}
-        self.crane_pos = crane_pos #[-49,49]
-        self.tower_vel = tower_vel #[-5,5]
-        self.tower_pos = tower_pos #[-49,49]
-        self.tower_height = tower_height #Siempre mayor a 0
-        self.max_height = max_height
-        self.tower_size = tower_size #multiplos de 2
-        self.tower_angle = tower_angle#OJO! Es en radianes, no en grados!
+    def initialize(self):
+        self.crane_direction = self.args.get('crane_dir') or 1 
+        self.crane_pos = self.args.get('crane_pos') or self.INITIAL_CRANE_POS
+        self.tower_vel = self.args.get('tower_vel') or 0
+        self.tower_pos = self.args.get('tower_pos') or 0
+        self.tower_height = self.args.get('tower_height') or 20
+        self.max_height = self.args.get('max_height') or 60
+        self.tower_size = self.args.get('tower_size') or 10
+        self.tower_angle = self.args.get('tower_angle') or 0
         self._finished = False
 
-    def  __init__(self, **kwargs):
-        self.initialize(**kwargs)
+    def  __init__(self, **args):
+        print args
+        self.args = args
+        self.initialize()
         self.states_action_pair_count = 0
 
     def finish(self):
