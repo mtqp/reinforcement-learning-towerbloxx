@@ -41,12 +41,11 @@
 	\maketitle
 
 \section{Problema}
-Para este trabajo, se utilizo una versi\'on simplificada del Tower Blocks, el cual se basa en un edificio al que hay que agregarle nuevos pisos utilizando una gr\'ua. La dificultad radica en que el jugador no puede manejar la gr\'ua, solo puede ejecutar la acci\'on de soltar un nuevo piso sobre el edificio ya construido. De acuerdo a la presici\'on con que se deposite el piso, la torre gana o pierde estabilidad. 
+Para este trabajo, se utilizo una versi\'on simplificada del Tower Blocks, el cual se basa en un edificio de bloques al que hay que agregarle nuevos pisos utilizando una gr\'ua. La dificultad radica en que el jugador no puede manejar la gr\'ua, solo puede ejecutar la acci\'on de soltar un nuevo piso sobre el edificio ya construido. De acuerdo a la presici\'on con que se deposite el piso, la torre gana o pierde estabilidad. 
+\begin{center} \includegraphics[scale=0.50]{towerblocks}\end{center}
 
-Ya que el juego tiene una gran variedad de niveles y variaciones, se opto por un modelo simple en el cual tenemos que agregar pisos (bloques) a un edificio intentando llegar a una cierta cantidad y sin haber hecho que se derrumbe. Para lo cual existe una gr\'ua que se mueve de manera constante sobre el edificio y nos permite ejecutar la acci\'on de tirar o no tirar. 
+Ya que el juego tiene una gran variedad de niveles y variaciones, se opto por un modelo simple en el cual tenemos que agregar pisos (bloques) a un edificio intentando llegar a una cierta cantidad y sin haber hecho que se derrumbe. Para lo cual existe una gr\'ua que se mueve de manera \textbf{constante} sobre el edificio y nos permite ejecutar la acci\'on de tirar o no tirar. 
 
-\begin{center} \includegraphics[scale=0.50]{towerblocks}
-\end{center}
 \section{Ambiente}
 Para la implementaci\'on del ambiente
 La grúa es un objeto que tiene un movimiento lineal entre dos posiciones (en este caso -49 y +49), a velocidad constante (1) se mueve en una u otra dirección, de donde se tirará el nuevo piso a agregar. 
@@ -60,8 +59,15 @@ $$ \#estados = \#posiciones\_grua * \#direcciones\_grua * \#posiciones\_torre * 
 Que dada la configuraci\'on que se utilizo, serian:
 $$ \# estados = 99 * 2 *99 * 11 = 215622 $$
 
-Aunque no todos ellos son alcanzables dependiendo de otro factor. 
+Aunque no todos ellos son alcanzables dependiendo de otro factor. Este otro factor es el \'angulo m\'aximo que se admite que tenga la torre antes de colapsar y que fuimos variando para encontrar buena dinamica, dejandolo en 30 grados. 
 
-Este otro factor es el \'angulo m\'aximo que se admite que tenga la torre antes de colapsar y que fuimos variando para encontrar buena dinamica, dejandolo en 30 grados. 
+\section{Agentes}
+Para implementar los jugadores, utilizamos 2 tipos de agentes. Un agente que aprende utilizando la tecnica de Q-Learning y otro que aprende usando el algoritmo Sarsa-$\lambda$.
+
+\subsection{Resultados Q-Learning}
+\subsection{Resultados Sarsa-$\lambda$}
+
+
+
 
 \end{document}
