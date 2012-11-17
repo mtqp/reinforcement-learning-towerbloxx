@@ -41,7 +41,7 @@ class ThrowActionResolver(ActionResolver):
 
 
     def tower_fell(self):
-        return abs(math.degrees(self.environment.tower_angle)) >= 20
+        return abs(math.degrees(self.environment.tower_angle)) >= 30
 
     def reward(self):
         return self._reward
