@@ -35,23 +35,22 @@
 	\titulo{Aprendizaje por Refuerzos}
 	\fecha{2012}
 	\materia{Aprendizaje por Refuerzos}
-	\integrante{Mariano De Sousa}{??}{marian_sabianaa@hotmail.com}
+	\integrante{Mariano De Sousa}{??}{marian\_sabianaa@hotmail.com}
 	\integrante{Mariano Bianchi}{92/08}{marianobianchi08@gmail.com}
 	\integrante{Pablo Brusco}{527/08}{pablo.brusco@gmail.com}
 	\maketitle
 
-\section{Ambiente}
-Detalle sobre ambiente utilizado:
+\section{Problema}
+Para este trabajo, se utilizo una versi\'on simplificada del Tower Blocks, el cual se basa en un edificio al que hay que agregarle nuevos pisos utilizando una grua. La dificultad radica en que el jugador no puede manejar la grua, solo puede ejecutar la acci\'on de soltar un nuevo piso sobre el edificio ya construido. De acuerdo a la presici\'on con que se deposite el piso, la torre gana o pierde estabilidad. 
 
+Ya que el juego tiene una gran variedad de niveles y variaciones, se opto por un modelo simple en el cual tenemos que agregar pisos (bloques) a un edificio intentando llegar a una cierta cantidad y sin haber hecho que se derrumbe. Para lo cual existe una grua que se mueve de manera constante sobre el edificio y nos permite ejecutar la acci\'on de tirar o no tirar. 
+
+
+\section{Ambiente}
+Para la implementaci\'on del ambiente
 La grúa es un objeto que tiene un movimiento lineal entre dos posiciones (en este caso -49 y +49), a velocidad constante (1) se mueve en una u otra dirección, de donde se tirará el nuevo piso a agregar. 
 
-Por otro lado, el edificio, posee un movimiento pendular que va variando en velocidad dependiendo de un factor de desbalanceado del mismo. La velocidad varía en un rango discreto de -5 a 5 inclusive el cual determina su posición (entre -49 y 49 inclusive).
-
-El factor de desbalanceado es un número entre 0 y 1, que al sobrepasar este umbral conciderámos que el edificio se cae. 
-
-
-
-
+Por otro lado, el edificio, posee un movimiento pendular que va variando en velocidad de acuerdo a que tan desbalanceado est\'a, debido a los tiros previos ejecutados por el agente. 
 
 
 \end{document}
