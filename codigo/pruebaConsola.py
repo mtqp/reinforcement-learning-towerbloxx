@@ -1,3 +1,5 @@
+#coding=utf-8
+
 from environment import Environment
 from Agents.QAgent import QAgent
 from Agents.SarsaLambda import SarsaLambda
@@ -17,24 +19,78 @@ def sAgent(pisos, desde, alpha, gamma, epsilon, lambda_val=0.3):
     return SarsaLambda(env, alpha=alpha, gamma=gamma, epsilon=epsilon,
                        lambda_val=lambda_val)
 
-
-
 def progreso_de_refuerzos():
-    #sagent = sAgent(pisos=4, desde=40, alpha=0.7, gamma=0.8, epsilon=0.01)
-    qagent = qAgent(pisos=20, desde=20, alpha=0.4, gamma=0.7, epsilon=0.01)
-    sagent = qAgent(pisos=20, desde=20, alpha=0.7, gamma=0.8, epsilon=0.01)
-    ref_q, ref_s, prom_q, prom_s = [], [], [], []
+    comparacion_epsilon(100)
+    comparacion_qlearning_vs_sarsa(20)
+    comparacion_gamma(100)
+    comparacion_alpha(100)
+
+def run_for(title, n, agents, formatt, labels):
+    data = []
     
-    for i in range(1000):
-        ref_q.append(qagent.run_episode())
-        ref_s.append(sagent.run_episode())
-        prom_q.append(average(ref_q))
-        prom_s.append(average(ref_s))
+    for j in range(len(agents)):
+        refs = []
+        proms = []
+        for _ in range(n):
+            refs.append(agents[j].run_episode())
+            proms.append(average(refs))
+        data.append((refs[:], formatt[j], labels[j]))
+        data.append((proms[:], formatt[j][0] + '-', labels[j] + ' prom'))
+        
 
-    progreso_refuerzos_plot(ref_q, ref_s, prom_q, prom_s)
+    plot_all(title,data)
+    
+def comparacion_epsilon(n):
+    qagent1 = qAgent(pisos=20, desde=20, alpha=0.7, gamma=0.8, epsilon=0.0001)
+    qagent2 = qAgent(pisos=20, desde=20, alpha=0.7, gamma=0.8, epsilon=0.001)
+    qagent3 = qAgent(pisos=20, desde=20, alpha=0.7, gamma=0.8, epsilon=0.01)
+    
+    run_for(
+        u"Comparación Epsilons en QLearning",
+        n,
+        [qagent1,qagent2,qagent3],
+        ["g.","r.","b."],
+        ["QAgent eps=0.0001","QAgent eps=0.001","QAgent eps=0.01"]
+    )
 
-
-
+def comparacion_gamma(n):
+    qagent1 = qAgent(pisos=20, desde=20, alpha=0.7, gamma=0.2, epsilon=0.001)
+    qagent2 = qAgent(pisos=20, desde=20, alpha=0.7, gamma=0.5, epsilon=0.001)
+    qagent3 = qAgent(pisos=20, desde=20, alpha=0.7, gamma=0.8, epsilon=0.001)
+    
+    run_for(
+        u"Comparación Gammas en QLearning",
+        n,
+        [qagent1,qagent2,qagent3],
+        ["g.","r.","b."],
+        ["QAgent gamma=0.2","QAgent gamma=0.5","QAgent gamma=0.8"]
+    )
+    
+def comparacion_alpha(n):
+    qagent1 = qAgent(pisos=20, desde=20, alpha=0.2, gamma=0.7, epsilon=0.001)
+    qagent2 = qAgent(pisos=20, desde=20, alpha=0.5, gamma=0.7, epsilon=0.001)
+    qagent3 = qAgent(pisos=20, desde=20, alpha=0.8, gamma=0.7, epsilon=0.001)
+    
+    run_for(
+        u"Comparación Alphas en QLearning",
+        n,
+        [qagent1,qagent2,qagent3],
+        ["g.","r.","b."],
+        ["QAgent alpha=0.2","QAgent alpha=0.5","QAgent alpha=0.8"]
+    )
+def comparacion_qlearning_vs_sarsa(n):
+    #qAgent:
+    # epsilon: 0.0001, 0.001, 0.01
+    qagent = qAgent(pisos=20, desde=20, alpha=0.7, gamma=0.8, epsilon=0.001)
+    sarsa = sAgent(pisos=20, desde=20, alpha=0.7, gamma=0.8, epsilon=0.001)
+    
+    run_for(
+        u"Comparación QLearning vs Sarsa",
+        n,
+        [qagent,sarsa],
+        ["g.","r."],
+        ["QLearning","SarsaLambda"]
+    )
 progreso_de_refuerzos()
 
 
