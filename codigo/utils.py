@@ -25,6 +25,26 @@ Cómo graficar: (sacado de http://matplotlib.org/users/pyplot_tutorial.html)
 
 """
 
+def progreso_refuerzos_plot(refs_q, refs_s, prom_q, prom_s):
+    plot_all(
+        [(refs_q, 'g.', 'QAgent'),
+         (refs_s, 'r.', 'SarsaAgent'),
+         (prom_q, 'g', 'Promedio Q'),
+         (prom_s, 'r', 'Promedio S')]
+    )
+    plt.savefig("progreso_refuerzos_plot.svg")
+
+def plot_all(graphs):
+    plots = []
+    legends = []
+    for data, color, legend in graphs:
+        p, = plt.plot(data, color)
+        plots.append(p)
+        legends.append(legend)
+    
+    plt.legend(plots, legends, loc = 4) #4 es abajo a la derecha
+    
+    
 
 def progreso_refuerzos_subplots(refs_q, refs_s):
     plt.subplot(211)
