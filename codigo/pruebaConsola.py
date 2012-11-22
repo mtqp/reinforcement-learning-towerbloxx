@@ -20,10 +20,10 @@ def sAgent(pisos, desde, alpha, gamma, epsilon, lambda_val=0.3):
                        lambda_val=lambda_val)
 
 def progreso_de_refuerzos():
-    comparacion_epsilon(100)
-    comparacion_qlearning_vs_sarsa(20)
-    comparacion_gamma(100)
-    comparacion_alpha(100)
+    comparacion_epsilon(3000)
+    comparacion_gamma(3000)
+    comparacion_alpha(3000)
+    comparacion_qlearning_vs_sarsa(1000)
 
 def run_for(title, n, agents, formatt, labels):
     data = []

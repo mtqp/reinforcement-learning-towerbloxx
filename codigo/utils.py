@@ -36,7 +36,12 @@ def plot_all(title, graphs):
     plt.title(title)
     plt.xlabel("Episodios")
     plt.ylabel("Refuerzo")
-    plt.legend(plots, legends, loc = 4, fontsize=8) #4 es abajo a la derecha
+    plt.legend(plots, legends, loc = 2) #4 es abajo a la derecha
+    
+    leg = plt.gca().get_legend()
+    ltext  = leg.get_texts()  # all the text.Text instance in the legend
+
+    plt.setp(ltext, fontsize=8)    # the legend text fontsize
     plt.savefig(title+".svg")
     
     
