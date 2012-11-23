@@ -50,7 +50,7 @@ Ya que el juego tiene una gran variedad de niveles y variaciones, se opto por un
 Para la implementaci\'on del ambiente
 La grúa es un objeto que tiene un movimiento lineal entre dos posiciones (en este caso -49 y +49), a velocidad constante (1) se mueve en una u otra dirección, de donde se tirará el nuevo piso a agregar. 
 
-Por otro lado, el edificio, posee un movimiento pendular que va variando en velocidad de acuerdo a que tan desbalanceado est\'a, debido a los tiros previos ejecutados por el agente. 
+Por otro lado, el edificio, posee un movimiento pendular que va variando en velocidad de acuerdo a que tan desbalanceado est\'a, debido a los tiros previos del jugador. 
 
 El ambiente, mantiene un estado visible para el exterior que contiene, la posici\'on y velocidad de la torre, y adem\'as, la posici\'on y direcci\'on de la gr\'ua. 
 
@@ -62,12 +62,44 @@ $$ \# estados = 99 * 2 *99 * 11 = 215622 $$
 Aunque no todos ellos son alcanzables dependiendo de otro factor. Este otro factor es el \'angulo m\'aximo que se admite que tenga la torre antes de colapsar y que fuimos variando para encontrar buena dinamica, dejandolo en 30 grados. 
 
 \section{Agentes}
-Para implementar los jugadores, utilizamos 2 tipos de agentes. Un agente que aprende utilizando la tecnica de Q-Learning y otro que aprende usando el algoritmo Sarsa-$\lambda$.
+Para implementar los jugadores, utilizamos 2 tipos de agentes. Un agente que aprende utilizando la tecnica de Q-Learning y otro que aprende usando el algoritmo Sarsa-$\lambda$ (ambos utilizando los algoritmos vistos en clase).
+Estos agentes, recibian estimulos seg\'un sus posibles acciones: 
+\begin{itemize}
+\item Tirar
+\item Pasar
+\end{itemize}
+En donde el ambiente podia responder con distintos refuerzos que contemplaban los siguientes casos:
+\begin{itemize}
+\item Refuerzo por pasar (negativo chico)
+\item Refuerzo por fallar y no golpear a la torre (negativo medio)
+\item Refuerzo por pegarle a la torre y lograr que se caiga (negativo grande)
+\item Refuerzo por tiro  exitoso (golpe\'o la torre y se agreg\'o un nuevo piso)
+\end{itemize}
 
-\subsection{Resultados Q-Learning}
-\subsection{Resultados Sarsa-$\lambda$}
 
+Veamos algunas comparaciones en funci\'on de ciertos parametros que fuimos variando para estudiar 
+\subsection{Experimentos y comparaciones}
+Para todos los experimentos normalizamos el ambiente para que sea un edificio de 20 pisos al que hay que llegar como objetivo del juego. 
 
+La primera de las preguntas que nos hicimos fue, que funcionara mejor, Q-Learning o Sarsa-$\lambda$ para parametros similares. 
+
+Para ello corrimos el siguiente experimento:
+
+\bigskip
+
+\begin{tabular}{ | c | c | c | c | c| }
+  \hline
+  Agente & $\epsilon$ & $\gamma$ & $\alpha$ & $\lambda$ \\
+  \hline 
+ 	 Q-Learning  & 0.001  & 0.8  & 0.7 & - \\
+	Sarsa-$\lambda$  & 0.001  & 0.8  & 0.7 & 0.001 \\
+	Sarsa-$\lambda$  & 0.001  & 0.8  & 0.7 & 0.3 \\
+	Sarsa-$\lambda$  & 0.001  & 0.8  & 0.7 & 0.7\\
+  \hline
+\end{tabular}
+
+\bigskip
+Obteniendo el siguiente resultado:
 
 
 \end{document}
