@@ -24,7 +24,6 @@ class Environment(object):
         self._finished = False
 
     def  __init__(self, **args):
-        print args
         self.args = args
         self.initialize()
         self.states_action_pair_count = 0

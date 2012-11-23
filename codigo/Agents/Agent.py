@@ -11,7 +11,6 @@ class Agent(object):
         self.epsilon = kargs["epsilon"]
         self.alpha = kargs["alpha"]
         self.gamma = kargs["gamma"]
-        print "Agent initialized with: epsilon: " + str(self.epsilon) + " alpha: "+ str(self.alpha) +" gamma: "+ str(self.gamma)
         
     def q_value(self, key):
         state,action = key
