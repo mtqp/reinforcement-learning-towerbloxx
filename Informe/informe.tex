@@ -101,11 +101,10 @@ Para responder a las distintas preguntas que uno se puede plantear con respecto 
 	\slambda & 0.001  & 0.8  & 0.7 & 0.3 \\
 	\slambda  & 0.001  & 0.8  & 0.7 & 0.7\\
   \hline
-
 \end{tabular}
-
 \caption {Qlearning vs \slambda}
 \end{table}
+
 \begin{table}[h]
 \center
 \begin{tabular}{ | c | c | c | c | }
@@ -121,13 +120,51 @@ Para responder a las distintas preguntas que uno se puede plantear con respecto 
 \caption {Epsilons en Qlearning}
 \end{table}
 
+\begin{table}[h]
+\center
+\begin{tabular}{ | c | c | c | c | }
+  \hline
+  Agente & $\epsilon$ & $\gamma$ & $\alpha$ \\
+  \hline 
+ 	 Q-Learning  & 0.001  & 0.8  & 0 \\
+	 Q-Learning  & 0.001  & 0.8  & 0.2 \\
+	 Q-Learning  & 0.001  & 0.8  & 0.5 \\
+	 Q-Learning  & 0.001  & 0.8  & 0.8 \\
+  \hline
+\end{tabular}
+\caption {Gammas en Qlearning}
+\end{table}
+
+\begin{table}[h]
+\center
+\begin{tabular}{ | c | c | c | c | }
+  \hline
+  Agente & $\epsilon$ & $\gamma$ & $\alpha$ \\
+  \hline 
+ 	 Q-Learning  & 0.0001  & 0.01  & 0.7 \\
+	 Q-Learning  & 0.0001  & 0.1  & 0.7 \\
+	 Q-Learning  & 0.0001  & 0.5  & 0.7 \\
+	 Q-Learning  & 0.0001  & 0.9  & 0.7 \\
+  \hline
+\end{tabular}
+\caption {Gammas en Qlearning}
+\end{table}
+
+
 \newpage
 
 \subsection{Resultados y Conclusiones}
 \includegraphics[scale=0.6]{Graf1}
+
 Analizando este gr\'afico podemos ver que Q-learning tuvo resultados muy por encima de\\ \slambda para distintos lambdas, y consistentemente con este resultado, un lambda mas chico influye en un mejor resultado.
 
 \includegraphics[scale=0.6]{Graf2}
+
 Ya que un epsilon mas chico significa proximidad a un algoritmo \textit{Goloso}, y dado que mientras mas Goloso, dio mejores resultados, podemos comenzar a pensar que este problema funcionar\'ia bien con este tipo de soluciones. 
 Es decir, para el agente que se acerca a mejores resultados, no fue tan necesario explorar, sino explotar las soluci\'ones encontrada. Quiz\'as esto nos de una pista de por que funciona mejor Qlearning que \slambda.
+
+\includegraphics[scale=0.6]{Graf3}
+
+En este resultado, podemos ver que el factor $\alpha$, que determina el peso que se le da al aprendizaje, no fue determinante para estos resultados (exepto con $\alpha$ = 0, en donde esto significa que no aprende nada).
+
 \end{document}
