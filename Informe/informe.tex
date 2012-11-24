@@ -1,5 +1,4 @@
 \documentclass[11pt, a4paper]{article}
-
 % Configuración de márgenes de las páginas
 	\usepackage{a4wide}
 
@@ -28,6 +27,10 @@
 
 % Opciones de enumerates
 	\usepackage{enumerate}
+
+% Para que las tablas no se muevan libremente
+	\usepackage{float}
+	\restylefloat{table}
 
 \begin{document}
 
@@ -78,15 +81,15 @@ En donde el ambiente podia responder con distintos refuerzos que contemplaban lo
 
 
 Veamos algunas comparaciones en funci\'on de ciertos parametros que fuimos variando para estudiar 
-\subsection{Experimentos y comparaciones}
+\subsection{Experimentos}
 Para todos los experimentos normalizamos el ambiente para que sea un edificio de 20 pisos al que hay que llegar como objetivo del juego. 
 
-La primera de las preguntas que nos hicimos fue, que funcionara mejor, Q-Learning o Sarsa-$\lambda$ para parametros similares. 
-
-Para ello corrimos el siguiente experimento:
+Para responder a las distintas preguntas que uno se puede plantear con respecto a los algoritmos y sus parametros, corrimos los siguientes experimentos:
 
 \bigskip
 
+\begin{table}[h]
+\center
 \begin{tabular}{ | c | c | c | c | c| }
   \hline
   Agente & $\epsilon$ & $\gamma$ & $\alpha$ & $\lambda$ \\
@@ -96,10 +99,14 @@ Para ello corrimos el siguiente experimento:
 	Sarsa-$\lambda$  & 0.001  & 0.8  & 0.7 & 0.3 \\
 	Sarsa-$\lambda$  & 0.001  & 0.8  & 0.7 & 0.7\\
   \hline
+
 \end{tabular}
+\caption {Experimento1: Qlearning vs Sarsa-$\lambda$}
+\end{table}
 
-\bigskip
-Obteniendo el siguiente resultado:
+\newpage
 
-
+\subsection{Resultados y Conclusiones}
+\includegraphics[scale=0.6]{Graf1}
+Lo que podemos concluir de \'este resultados es: bla bla
 \end{document}
