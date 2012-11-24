@@ -32,6 +32,8 @@
 	\usepackage{float}
 	\restylefloat{table}
 
+\newcommand{\slambda}{Sarsa-$\lambda$ }
+
 \begin{document}
 
 % Carátula
@@ -58,20 +60,20 @@ Por otro lado, el edificio, posee un movimiento pendular que va variando en velo
 El ambiente, mantiene un estado visible para el exterior que contiene, la posici\'on y velocidad de la torre, y adem\'as, la posici\'on y direcci\'on de la gr\'ua. 
 
 Dados los parametros que mantiene el ambiente, la cantidad de estados est\'a dada por:
-$$ \#estados = \#posiciones\_grua * \#direcciones\_grua * \#posiciones\_torre *  \#velocidad\_torre  $$
+$$ \#estados = \#posiciones\_grua * \#direcciones\_grua * \#posiciones\_torre *  \#velocidades\_torre  $$
 Que dada la configuraci\'on que se utilizo, serian:
-$$ \# estados = 99 * 2 *99 * 11 = 215622 $$
+$$ \# estados = 99 * 2 * 99 * 11 = 215622 $$
 
 Aunque no todos ellos son alcanzables dependiendo de otro factor. Este otro factor es el \'angulo m\'aximo que se admite que tenga la torre antes de colapsar y que fuimos variando para encontrar buena dinamica, dejandolo en 30 grados. 
 
 \section{Agentes}
-Para implementar los jugadores, utilizamos 2 tipos de agentes. Un agente que aprende utilizando la tecnica de Q-Learning y otro que aprende usando el algoritmo Sarsa-$\lambda$ (ambos utilizando los algoritmos vistos en clase).
-Estos agentes, recibian estimulos seg\'un sus posibles acciones: 
+Para implementar los jugadores, utilizamos 2 tipos de agentes. Un agente que aprende utilizando la tecnica de Q-Learning y otro que aprende usando el algoritmo \slambda (ambos utilizando los algoritmos vistos en clase).
+Estos agentes, recib\'ian est\'imulos seg\'un sus posibles acciones: 
 \begin{itemize}
 \item Tirar
 \item Pasar
 \end{itemize}
-En donde el ambiente podia responder con distintos refuerzos que contemplaban los siguientes casos:
+En donde el ambiente pod\'ia responder con distintos refuerzos que contemplaban los siguientes casos:
 \begin{itemize}
 \item Refuerzo por pasar (negativo chico)
 \item Refuerzo por fallar y no golpear a la torre (negativo medio)
@@ -95,18 +97,37 @@ Para responder a las distintas preguntas que uno se puede plantear con respecto 
   Agente & $\epsilon$ & $\gamma$ & $\alpha$ & $\lambda$ \\
   \hline 
  	 Q-Learning  & 0.001  & 0.8  & 0.7 & - \\
-	Sarsa-$\lambda$  & 0.001  & 0.8  & 0.7 & 0.001 \\
-	Sarsa-$\lambda$  & 0.001  & 0.8  & 0.7 & 0.3 \\
-	Sarsa-$\lambda$  & 0.001  & 0.8  & 0.7 & 0.7\\
+	\slambda & 0.001  & 0.8  & 0.7 & 0.001 \\
+	\slambda & 0.001  & 0.8  & 0.7 & 0.3 \\
+	\slambda  & 0.001  & 0.8  & 0.7 & 0.7\\
   \hline
 
 \end{tabular}
-\caption {Experimento1: Qlearning vs Sarsa-$\lambda$}
+
+\caption {Qlearning vs \slambda}
+\end{table}
+\begin{table}[h]
+\center
+\begin{tabular}{ | c | c | c | c | }
+  \hline
+  Agente & $\epsilon$ & $\gamma$ & $\alpha$ \\
+  \hline 
+ 	 Q-Learning  & 0  & 0.8  & 0.7 \\
+	 Q-Learning  & 0.0001  & 0.8  & 0.7 \\
+	 Q-Learning  & 0.001  & 0.8  & 0.7 \\
+	 Q-Learning  & 0.01  & 0.8  & 0.7 \\
+  \hline
+\end{tabular}
+\caption {Epsilons en Qlearning}
 \end{table}
 
 \newpage
 
 \subsection{Resultados y Conclusiones}
 \includegraphics[scale=0.6]{Graf1}
-Lo que podemos concluir de \'este resultados es: bla bla
+Analizando este gr\'afico podemos ver que Q-learning tuvo resultados muy por encima de\\ \slambda para distintos lambdas, y consistentemente con este resultado, un lambda mas chico influye en un mejor resultado.
+
+\includegraphics[scale=0.6]{Graf2}
+Ya que un epsilon mas chico significa proximidad a un algoritmo \textit{Goloso}, y dado que mientras mas Goloso, dio mejores resultados, podemos comenzar a pensar que este problema funcionar\'ia bien con este tipo de soluciones. 
+Es decir, para el agente que se acerca a mejores resultados, no fue tan necesario explorar, sino explotar las soluci\'ones encontrada. Quiz\'as esto nos de una pista de por que funciona mejor Qlearning que \slambda.
 \end{document}
