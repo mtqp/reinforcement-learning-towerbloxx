@@ -20,14 +20,16 @@ class QAgent(Agent):
         rewards = 0
         movements = 0
         
-        while not (state.has_finished()):
-            
+        while True:
             action = self.choose_action(state) #usando una politica derivada de Q (eps-greedy en este caso)
             new_state, reward = self.environment.make_action(action)
             max_action = self.max_action(new_state)
             key = (state,action)
             self.set_q_value(key, (1-self.alpha)*self.q_value((state,action)) + self.alpha*(reward + self.gamma*self.q_value((new_state, max_action))))
             
+            if state.has_finished():
+                break
+
             state = deepcopy(new_state)
             rewards += reward
             movements += 1

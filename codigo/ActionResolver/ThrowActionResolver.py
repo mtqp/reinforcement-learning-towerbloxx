@@ -29,16 +29,9 @@ class ThrowActionResolver(ActionResolver):
 
         self._reward = self.HIT_REWARD
 
-        if self.tower_fell():
-            self._reward = self.TOWER_FELL_REWARD
-            self.environment.finish()
-        else:
-            self.environment.add_floor()
-            self.update_tower_speed(tower_crane_difference)
+        self.environment.add_floor()
+        self.update_tower_speed(tower_crane_difference)
 
-
-    def tower_fell(self):
-        return abs(math.degrees(self.environment.tower_angle)) >= 30
 
     def reward(self):
         return self._reward
@@ -57,3 +50,7 @@ class ThrowActionResolver(ActionResolver):
             new_angle = math.atan(tower_pos/float(height))
 
         self.environment.tower_angle = new_angle
+        
+        if self.tower_fell():
+            raise TowerFellException()
+

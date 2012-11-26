@@ -4,10 +4,9 @@ def sign(val):
     return cmp(val,0) or 1
 
 class ActionResolver(object):
-    PASS_REWARD = -10
+    PASS_REWARD = -1
     MISSING_REWARD = -30
-    TOWER_FELL_REWARD = -5000
-    HIT_REWARD = 1000
+    HIT_REWARD = 100
 
     @classmethod
     def create_for(cls, environment, action):
@@ -37,6 +36,9 @@ class ActionResolver(object):
         new_pos = self.next_tower_pos(new_angle)
 
         self.environment.tower_angle = new_angle
+        if self.tower_fell():
+            raise TowerFellException()
+
         self.environment.tower_vel = new_vel
         self.environment.tower_pos = new_pos
 
@@ -44,6 +46,9 @@ class ActionResolver(object):
         #Trigonometria (SOH-CAH-TOA) :)
         distance_from_zero = math.tan(angle) * self.environment.tower_height #TAN * ADYACENTE
         return distance_from_zero
+
+    def tower_fell(self):
+        return abs(math.degrees(self.environment.tower_angle)) >= 30
 
     def pendulus_move(self):
         #Ver http://www.physics.ncsu.edu/courses/py299cp/Lesson10/index.html
@@ -57,3 +62,9 @@ class ActionResolver(object):
         theta = old_theta + delta_time * old_omega
 
         return theta, omega
+
+class TowerFellException(Exception):
+    pass
+
+class WinException(Exception):
+    pass
