@@ -116,4 +116,4 @@ def comparacion_qlearning_vs_sarsa(n):
     )
 
 
-comparacion_epsilon_sarsa(1000)
+comparacion_qlearning_vs_sarsa(200)
