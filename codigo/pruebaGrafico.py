@@ -15,7 +15,7 @@ def sAgent(pisos, desde, alpha, gamma, epsilon, lambda_val = 0.3):
   return SarsaLambda(env, alpha = alpha, gamma = gamma, epsilon = epsilon, lambda_val = lambda_val)
 
 
-agent = qAgent(pisos = 40, desde = 40, alpha = 0.7, gamma = 0.8, epsilon = 0.004)
+agent = qAgent(pisos = 10, desde = 50, alpha = 0.7, gamma = 0.8, epsilon = 0.1)
 
 data = [0 for i in range(300)]
 fig = plt.figure()
@@ -23,7 +23,7 @@ ax = fig.add_subplot(111)
 
 line, = ax.plot(np.array(data),'g.')
 
-ax.set_ylim(-100000, 100000)
+ax.set_ylim(-15000, 15000)
 
 def update(data):
     line.set_ydata(data)

@@ -6,7 +6,7 @@ def sign(val):
 class ActionResolver(object):
     PASS_REWARD = -1
     MISSING_REWARD = -30
-    HIT_REWARD = 100
+    HIT_REWARD = 500
 
     @classmethod
     def create_for(cls, environment, action):
@@ -48,7 +48,7 @@ class ActionResolver(object):
         return distance_from_zero
 
     def tower_fell(self):
-        return abs(math.degrees(self.environment.tower_angle)) >= 30
+        return abs(math.degrees(self.environment.tower_angle)) >= 38
 
     def pendulus_move(self):
         #Ver http://www.physics.ncsu.edu/courses/py299cp/Lesson10/index.html

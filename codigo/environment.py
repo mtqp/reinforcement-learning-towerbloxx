@@ -7,8 +7,8 @@ class Environment(object):
 
     THROW = 1
     PASS = 0
-    TOWER_FELL_REWARD = 1000
-    WIN_REWARD = 5000
+    TOWER_FELL_REWARD = -3000
+    WIN_REWARD = 3000
 
     INITIAL_CRANE_POS = -49
     
