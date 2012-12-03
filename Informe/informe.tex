@@ -194,22 +194,18 @@ Luego de estos experimentos fijamos el piso desde el cual se comienza en 50.
 \newpage
 
 \subsection{Resultados}
-%\includegraphics[scale=0.6]{}
 
-Analizando este gr\'afico podemos ver que Q-learning tuvo resultados por encima de las distintas corridas de \slambda para distintos lambdas, y consistentemente con este resultado, un lambda mas chico influye en un mejor resultado (Al menos en la cantidad de iteraciones que se corrió). Un dato importante es el tiempo que demoraron los distintos algoritmos. Mientras que la corrida de Q-Learning demoró cerca de 2 minutos, la corrida de \slambda con $\lambda = 0.7$ demoró cerca de 2 horas y media. 
+\includegraphics[scale=0.6]{Graficos/estabilidadesQ}
 
-\includegraphics[scale=0.6]{Graficos/epsilonsQ.png}
+\includegraphics[scale=0.6]{Graficos/estabilidadesS}
 
-Ya que un epsilon mas chico significa proximidad a un algoritmo \textit{Goloso}, y dado que mientras mas Goloso, dio mejores resultados, podemos comenzar a pensar que este problema funcionar\'ia bien con este tipo de soluciones. 
-Es decir, para el agente que se acerca a mejores resultados, no fue tan necesario explorar, sino explotar las soluci\'ones encontrada.
+\includegraphics[scale=0.6]{Graficos/QvsS}
 
-\includegraphics[scale=0.6]{Graficos/alphasQ.png}
+\includegraphics[scale=0.6]{Graficos/epsilonsQ}
 
-En este resultado, podemos ver que el factor $\alpha$, que determina el peso que se le da al aprendizaje, no fue determinante para estos resultados (exepto con $\alpha$ = 0, en donde esto significa que no aprende nada).
+\includegraphics[scale=0.6]{Graficos/gammasQ}
 
-\includegraphics[scale=0.6]{Graficos/gammasQ.png}
-En este resultados vemos que el factor $\gamma$ no influencia casi nada en el aprendizaje. Quiz\'as gracias a la facilidad del mismo.
-
+\includegraphics[scale=0.6]{Graficos/alphasQ}
 
 \subsection{Conclusiones}
 Luego de analizar los resultados, llegamos a la conclusi\'on de que resulto f\'acil para el agente implementado usando Q-Lerning encontrar soluciones al problema cuando la estabilidad del edificio
