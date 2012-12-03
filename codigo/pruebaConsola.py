@@ -52,7 +52,7 @@ def comparacion_epsilon_q(n):
         n,
         [qagent1, qagent2, qagent3, qagent4],
         ["y.", "m.", "c.", "r."],
-        ["QLearning(e=0)", "QLearning(e=0.0001)", "QLearning(e=0.001)", "QLearning(e=0.01)"]
+        ["Q(e=0)", "Q(e=0.0001)", "Q(e=0.001)", "Q(e=0.01)"]
     )
 
 
@@ -75,29 +75,29 @@ def comparacion_epsilon_sarsa(n):
 def comparacion_gamma(n):
     qagent1 = qAgent(pisos=20, desde=20, alpha=0.7, gamma=0.2, epsilon=0.001)
     qagent2 = qAgent(pisos=20, desde=20, alpha=0.7, gamma=0.5, epsilon=0.001)
-    qagent3 = qAgent(pisos=20, desde=20, alpha=0.7, gamma=0.9, epsilon=0.001)
+    qagent3 = qAgent(pisos=20, desde=20, alpha=0.7, gamma=0.8, epsilon=0.001)
 
     run_for(
         u"Comparación Gammas en QLearning",
         n,
         [qagent1, qagent2, qagent3],
         ["g.", "r.", "b."],
-        ["QLearning(g=0.2)", "QLearning(g=0.5)", "QLearning(g=0.9)"]
+        ["QAgent gamma=0.2", "QAgent gamma=0.5", "QAgent gamma=0.8"]
     )
 
 
 def comparacion_alpha(n):
-    qagent0 = qAgent(pisos=20, desde=20, alpha=0.001, gamma=0.7, epsilon=0.001)
+    qagent0 = qAgent(pisos=20, desde=20, alpha=0, gamma=0.7, epsilon=0.001)
     qagent1 = qAgent(pisos=20, desde=20, alpha=0.2, gamma=0.7, epsilon=0.001)
     qagent2 = qAgent(pisos=20, desde=20, alpha=0.5, gamma=0.7, epsilon=0.001)
-    qagent3 = qAgent(pisos=20, desde=20, alpha=0.9, gamma=0.7, epsilon=0.001)
+    qagent3 = qAgent(pisos=20, desde=20, alpha=0.8, gamma=0.7, epsilon=0.001)
 
     run_for(
         u"Comparación Alphas en QLearning",
         n,
         [qagent0, qagent1, qagent2, qagent3],
         ["m.", "c.", "r.", "b."],
-        ["QLearning(a=0.001)", "QLearning(a=0.2)", "QLearning(a=0.5)", "QLearning(a=0.9)"]
+        ["", "QAgent alpha=0.2", "QAgent alpha=0.5", "QAgent alpha=0.8"]
     )
 
 
@@ -112,13 +112,8 @@ def comparacion_qlearning_vs_sarsa(n):
         n,
         [qagent, sarsa, sarsa2, sarsa3],
         ["c.", "m.", "r.", "b."],
-        ["QLearning", "Sarsa(lamda=0.001)", "Sarsa(lamda=0.03)", "Sarsa(lambda=0.07)"]
+        ["QLearning", "Sarsa (lamda=0.001)", "Sarsa (lamda=0.03)", "Sarsa (lambda=0.07)"]
     )
 
 
-comparacion_alpha(2000)
-comparacion_gamma(2000)
-comparacion_epsilon_q(2000)
 comparacion_epsilon_sarsa(1000)
-comparacion_qlearning_vs_sarsa(1000)
-

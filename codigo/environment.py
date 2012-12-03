@@ -7,8 +7,6 @@ class Environment(object):
 
     THROW = 1
     PASS = 0
-    TOWER_FELL_REWARD = -3000
-    WIN_REWARD = 3000
 
     INITIAL_CRANE_POS = -49
     
@@ -23,20 +21,18 @@ class Environment(object):
         self.max_height = self.args.get('max_height') or 60
         self.tower_size = self.args.get('tower_size') or 10
         self.tower_angle = self.args.get('tower_angle') or 0
+        self._finished = False
 
     def  __init__(self, **args):
         self.args = args
         self.initialize()
         self.states_action_pair_count = 0
-        self._finished = False
 
     def finish(self):
         self._finished = True
 
     def start(self):
         self.initialize()
-        self._finished = False
-
         return self.state()
 
     def max_reward(self):
@@ -44,20 +40,13 @@ class Environment(object):
 
     def make_action(self, action):
         resolver = ActionResolver.create_for(self, action)
-        try:
-            reward = resolver.resolve()
-            return self.state(), reward
-        except TowerFellException:
-            self.finish()
-            return self.state(), self.TOWER_FELL_REWARD
-        except WinException:
-            self.finish()
-            return self.state(), self.WIN_REWARD
+        reward = resolver.resolve()
+        return self.state(), reward
 
     def add_floor(self):
         self.tower_height += 1
         if self.tower_height >= self.max_height:
-            raise WinException()
+            self.finish()
         else:
             self.crane_dir = 1
             self.crane_pos = self.INITIAL_CRANE_POS

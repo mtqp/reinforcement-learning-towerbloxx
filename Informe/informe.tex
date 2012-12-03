@@ -50,7 +50,7 @@
 Para este trabajo, se utilizo una versi\'on simplificada del Tower Blocks, el cual se basa en un edificio de bloques al que hay que agregarle nuevos pisos utilizando una gr\'ua. La dificultad radica en que el jugador no puede manejar la gr\'ua, solo puede ejecutar la acci\'on de soltar un nuevo piso sobre el edificio ya construido. De acuerdo a la presici\'on con que se deposite el piso, la torre gana o pierde estabilidad. 
 \begin{center} \includegraphics[scale=0.50]{towerblocks}\end{center}
 
-Ya que el juego tiene una gran variedad de niveles, se opto por un modelo simple en el cual tenemos que agregar pisos (bloques) a un edificio intentando llegar a una cierta cantidad y sin haber hecho que se derrumbe. Para ello existe una gr\'ua que se mueve de manera \textbf{constante} sobre el edificio y nos permite ejecutar la acci\'on de tirar o no tirar.
+Ya que el juego tiene una gran variedad de niveles y ¿variaciones?, se opto por un modelo simple en el cual tenemos que agregar pisos (bloques) a un edificio intentando llegar a una cierta cantidad y sin haber hecho que se derrumbe. Para ello existe una gr\'ua que se mueve de manera \textbf{constante} sobre el edificio y nos permite ejecutar la acci\'on de tirar o no tirar.
 
 \section{Ambiente}
 Para la implementaci\'on del ambiente
@@ -155,28 +155,20 @@ Para responder a las distintas preguntas que uno se puede plantear con respecto 
 
 \newpage
 
-\subsection{Resultados}
-%\includegraphics[scale=0.6]{}
+\subsection{Resultados y Conclusiones}
+\includegraphics[scale=0.6]{Graf1}
 
-Analizando este gr\'afico podemos ver que Q-learning tuvo resultados por encima de las distintas corridas de \slambda para distintos lambdas, y consistentemente con este resultado, un lambda mas chico influye en un mejor resultado (Al menos en la cantidad de iteraciones que se corrió). Un dato importante es el tiempo que demoraron los distintos algoritmos. Mientras que la corrida de Q-Learning demoró cerca de 2 minutos, la corrida de \slambda con $\lambda = 0.7$ demoró cerca de 2 horas y media. 
+Analizando este gr\'afico podemos ver que Q-learning tuvo resultados muy por encima de\\ \slambda para distintos lambdas, y consistentemente con este resultado, un lambda mas chico influye en un mejor resultado.
 
-\includegraphics[scale=0.6]{Graficos/epsilonsQ.png}
+\includegraphics[scale=0.6]{Graf2}
 
 Ya que un epsilon mas chico significa proximidad a un algoritmo \textit{Goloso}, y dado que mientras mas Goloso, dio mejores resultados, podemos comenzar a pensar que este problema funcionar\'ia bien con este tipo de soluciones. 
-Es decir, para el agente que se acerca a mejores resultados, no fue tan necesario explorar, sino explotar las soluci\'ones encontrada.
+Es decir, para el agente que se acerca a mejores resultados, no fue tan necesario explorar, sino explotar las soluci\'ones encontrada. Quiz\'as esto nos de una pista de por que funciona mejor Qlearning que \slambda.
 
-\includegraphics[scale=0.6]{Graficos/alphasQ.png}
+\includegraphics[scale=0.6]{Graf3}
 
 En este resultado, podemos ver que el factor $\alpha$, que determina el peso que se le da al aprendizaje, no fue determinante para estos resultados (exepto con $\alpha$ = 0, en donde esto significa que no aprende nada).
 
-\includegraphics[scale=0.6]{Graficos/gammasQ.png}
-En este resultados vemos que el factor $\gamma$ no influencia casi nada en el aprendizaje. Quiz\'as gracias a la facilidad del mismo.
-
-
-\subsection{Conclusiones}
-Luego de analizar los resultados, llegamos a la conclusi\'on de que resulto f\'acil para el agente implementado usando Q-Lerning encontrar soluciones al problema cuando la estabilidad del edificio
-
-\newpage
 
 \section{Anexo A}
 \subsection{Código de Q-Learning}
@@ -218,7 +210,7 @@ Luego de analizar los resultados, llegamos a la conclusi\'on de que resulto f\'a
         #usando una politica derivada de Q (eps-greedy en este caso)
         action = self.choose_action(state)
                 
-        while not (state.has_finished()):
+        while not (state.has_finished() or movements > 300):
             new_state, reward = self.environment.make_action(action)
             new_action = self.choose_action(new_state)
             delta = reward + self.gamma * self.q_value((new_state, new_action)) 

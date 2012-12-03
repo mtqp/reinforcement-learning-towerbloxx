@@ -14,7 +14,7 @@ class SarsaLambda(Agent):
         movements = 0
         action = self.choose_action(state) #usando una politica derivada de Q (eps-greedy en este caso)
                 
-        while True:
+        while not (state.has_finished() or movements > 300):
             new_state, reward = self.environment.make_action(action)
             new_action = self.choose_action(new_state)
             delta = reward + self.gamma * self.q_value((new_state, new_action)) - self.q_value((state,action))
@@ -24,8 +24,6 @@ class SarsaLambda(Agent):
                 self.set_q_value(k, self.q_value(k) + self.alpha * delta * self.e_value(k))
                 self.set_e_value(k, self.e_value(k) * self.gamma * self.lambda_val)
 
-            if state.has_finished():
-                break
             state = deepcopy(new_state)
             action = new_action
             rewards += reward
