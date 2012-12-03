@@ -41,7 +41,7 @@
 	\titulo{Aprendizaje por Refuerzos}
 	\fecha{2012}
 	\materia{Aprendizaje por Refuerzos}
-	\integrante{Mariano De Sousa}{??}{marian\_sabianaa@hotmail.com}
+	\integrante{De Sousa Mariano}{389/08}{marian\_sabianaa@hotmail.com}
 	\integrante{Mariano Bianchi}{92/08}{marianobianchi08@gmail.com}
 	\integrante{Pablo Brusco}{527/08}{pablo.brusco@gmail.com}
 	\maketitle
@@ -50,13 +50,13 @@
 Para este trabajo, se utilizo una versi\'on simplificada del Tower Blocks, el cual se basa en un edificio de bloques al que hay que agregarle nuevos pisos utilizando una gr\'ua. La dificultad radica en que el jugador no puede manejar la gr\'ua, solo puede ejecutar la acci\'on de soltar un nuevo piso sobre el edificio ya construido. De acuerdo a la presici\'on con que se deposite el piso, la torre gana o pierde estabilidad. 
 \begin{center} \includegraphics[scale=0.50]{towerblocks}\end{center}
 
-Ya que el juego tiene una gran variedad de niveles y ¿variaciones?, se opto por un modelo simple en el cual tenemos que agregar pisos (bloques) a un edificio intentando llegar a una cierta cantidad y sin haber hecho que se derrumbe. Para ello existe una gr\'ua que se mueve de manera \textbf{constante} sobre el edificio y nos permite ejecutar la acci\'on de tirar o no tirar.
+Ya que el juego tiene una gran variedad de niveles, se opto por un modelo simple en el cual tenemos que agregar pisos (bloques) a un edificio intentando llegar a una cierta cantidad y sin haber hecho que se derrumbe. Para ello existe una gr\'ua que se mueve de manera \textbf{constante} sobre el edificio y nos permite ejecutar la acci\'on de tirar o no tirar.
 
 \section{Ambiente}
 Para la implementaci\'on del ambiente
 La grúa es un objeto que tiene un movimiento lineal entre dos posiciones (en este caso -49 y +49), a velocidad constante (1) se mueve en una u otra dirección, de donde se tirará el nuevo piso a agregar. 
 
-Por otro lado, el edificio, posee un movimiento pendular que va variando en velocidad de acuerdo a que tan desbalanceado est\'a, debido a los tiros previos del jugador. 
+Por otro lado, el edificio, posee un movimiento pendular que va variando en velocidad de acuerdo a que tan desbalanceado est\'a, debido a los tiros previos del jugador, por otro lado, también depende de la altura de la torre. Por la forma en que lo modelamos, a mayor altura, mayor estabilidad.
 
 El ambiente, mantiene un estado visible para el exterior que contiene, la posici\'on y velocidad de la torre, y adem\'as, la posici\'on y direcci\'on de la gr\'ua. 
 
@@ -69,12 +69,13 @@ Aunque no todos ellos son alcanzables dependiendo de otro factor. Este otro fact
 
 \section{Agentes}
 Para implementar los jugadores, utilizamos 2 tipos de agentes. Un agente que aprende utilizando la tecnica de Q-Learning y otro que aprende usando el algoritmo \slambda (ambos utilizando los algoritmos vistos en clase).
-Estos agentes, recib\'ian est\'imulos seg\'un sus posibles acciones: 
+
+Estos agentes, reciben est\'imulos seg\'un sus posibles acciones: 
 \begin{itemize}
 \item Tirar
 \item Pasar
 \end{itemize}
-En donde el ambiente pod\'ia responder con distintos refuerzos que contemplaban los siguientes casos:
+En donde el ambiente puede responder con distintos refuerzos que contemplaban los siguientes casos:
 \begin{itemize}
 \item Refuerzo por pasar (negativo chico)
 \item Refuerzo por tirar y no golpear a la torre (negativo medio)
@@ -83,15 +84,50 @@ En donde el ambiente pod\'ia responder con distintos refuerzos que contemplaban 
 \end{itemize}
 
 
-Veamos algunas comparaciones en funci\'on de ciertos parametros que fuimos variando para estudiar 
 \subsection{Experimentos}
-Para todos los experimentos normalizamos el ambiente para que sea un edificio de 20 pisos al que hay que llegar como objetivo del juego. 
 
-Para responder a las distintas preguntas que uno se puede plantear con respecto a los algoritmos y sus parametros, corrimos los siguientes experimentos:
+Para responder a las distintas preguntas que uno se puede plantear con respecto a los algoritmos y sus parametros, corrimos los siguientes experimentos, siempre el objetivo era llegar a los 20 pisos
 
 \bigskip
 
-\begin{table}[h]
+\begin{table}[h!]
+\center
+\begin{tabular}{ | c | c | c | c | c| }
+  \hline
+  Agente & $\epsilon$ & $\gamma$ & $\alpha$ & Pisos desde \\
+  \hline 
+ 	 Q-Learning  & 0.001  & 0.8  & 0.7 & 1 \\
+	Q-Learning  & 0.001  & 0.8  & 0.7 &  10\\
+	Q-Learning  & 0.001  & 0.8  & 0.7 &  20 \\
+	Q-Learning  & 0.001  & 0.8  & 0.7 &  30\\
+	Q-Learning  & 0.001  & 0.8  & 0.7 &  50\\
+	Q-Learning  & 0.001  & 0.8  & 0.7 &  70\\
+  \hline
+
+\end{tabular}
+\caption {Distintas estabilidades en Q-Learning}
+\end{table}
+
+\begin{table}[h!]
+\center
+\begin{tabular}{ | c | c | c | c | c | c | }
+  \hline
+  Agente & $\epsilon$ & $\gamma$ & $\alpha$ & $\lambda$ & Pisos desde \\
+  \hline 
+ 	 \slambda  & 0.001  & 0.8  & 0.7 & 0.3 & 1 \\
+	\slambda  & 0.001  & 0.8  & 0.7 &  0.3& 10 \\
+	\slambda  & 0.001  & 0.8  & 0.7 &  0.3& 20  \\
+	\slambda  & 0.001  & 0.8  & 0.7 &  0.3& 30 \\
+	\slambda  & 0.001  & 0.8  & 0.7 &  0.3& 50 \\
+	\slambda  & 0.001  & 0.8  & 0.7 &  0.3& 70 \\
+  \hline
+
+\end{tabular}
+\caption {Distintas estabilidades en \slambda}
+\end{table}
+
+
+\begin{table}[h!]
 \center
 \begin{tabular}{ | c | c | c | c | c| }
   \hline
@@ -107,7 +143,7 @@ Para responder a las distintas preguntas que uno se puede plantear con respecto 
 \caption {Qlearning vs \slambda}
 \end{table}
 
-\begin{table}[h]
+\begin{table}[h!]
 \center
 \begin{tabular}{ | c | c | c | c | }
   \hline
@@ -122,7 +158,7 @@ Para responder a las distintas preguntas que uno se puede plantear con respecto 
 \caption {Epsilons en Qlearning}
 \end{table}
 
-\begin{table}[h]
+\begin{table}[h!]
 \center
 \begin{tabular}{ | c | c | c | c | }
   \hline
@@ -134,10 +170,10 @@ Para responder a las distintas preguntas que uno se puede plantear con respecto 
 	 Q-Learning  & 0.001  & 0.8  & 0.8 \\
   \hline
 \end{tabular}
-\caption {Gammas en Qlearning}
+\caption {Alphas en Qlearning}
 \end{table}
 
-\begin{table}[h]
+\begin{table}[h!]
 \center
 \begin{tabular}{ | c | c | c | c | }
   \hline
@@ -155,20 +191,28 @@ Para responder a las distintas preguntas que uno se puede plantear con respecto 
 
 \newpage
 
-\subsection{Resultados y Conclusiones}
-\includegraphics[scale=0.6]{Graf1}
+\subsection{Resultados}
+%\includegraphics[scale=0.6]{}
 
-Analizando este gr\'afico podemos ver que Q-learning tuvo resultados muy por encima de\\ \slambda para distintos lambdas, y consistentemente con este resultado, un lambda mas chico influye en un mejor resultado.
+Analizando este gr\'afico podemos ver que Q-learning tuvo resultados por encima de las distintas corridas de \slambda para distintos lambdas, y consistentemente con este resultado, un lambda mas chico influye en un mejor resultado (Al menos en la cantidad de iteraciones que se corrió). Un dato importante es el tiempo que demoraron los distintos algoritmos. Mientras que la corrida de Q-Learning demoró cerca de 2 minutos, la corrida de \slambda con $\lambda = 0.7$ demoró cerca de 2 horas y media. 
 
-\includegraphics[scale=0.6]{Graf2}
+\includegraphics[scale=0.6]{Graficos/epsilonsQ.png}
 
 Ya que un epsilon mas chico significa proximidad a un algoritmo \textit{Goloso}, y dado que mientras mas Goloso, dio mejores resultados, podemos comenzar a pensar que este problema funcionar\'ia bien con este tipo de soluciones. 
-Es decir, para el agente que se acerca a mejores resultados, no fue tan necesario explorar, sino explotar las soluci\'ones encontrada. Quiz\'as esto nos de una pista de por que funciona mejor Qlearning que \slambda.
+Es decir, para el agente que se acerca a mejores resultados, no fue tan necesario explorar, sino explotar las soluci\'ones encontrada.
 
-\includegraphics[scale=0.6]{Graf3}
+\includegraphics[scale=0.6]{Graficos/alphasQ.png}
 
 En este resultado, podemos ver que el factor $\alpha$, que determina el peso que se le da al aprendizaje, no fue determinante para estos resultados (exepto con $\alpha$ = 0, en donde esto significa que no aprende nada).
 
+\includegraphics[scale=0.6]{Graficos/gammasQ.png}
+En este resultados vemos que el factor $\gamma$ no influencia casi nada en el aprendizaje. Quiz\'as gracias a la facilidad del mismo.
+
+
+\subsection{Conclusiones}
+Luego de analizar los resultados, llegamos a la conclusi\'on de que resulto f\'acil para el agente implementado usando Q-Lerning encontrar soluciones al problema cuando la estabilidad del edificio
+
+\newpage
 
 \section{Anexo A}
 \subsection{Código de Q-Learning}
@@ -210,7 +254,7 @@ En este resultado, podemos ver que el factor $\alpha$, que determina el peso que
         #usando una politica derivada de Q (eps-greedy en este caso)
         action = self.choose_action(state)
                 
-        while not (state.has_finished() or movements > 300):
+        while not (state.has_finished()):
             new_state, reward = self.environment.make_action(action)
             new_action = self.choose_action(new_state)
             delta = reward + self.gamma * self.q_value((new_state, new_action)) 

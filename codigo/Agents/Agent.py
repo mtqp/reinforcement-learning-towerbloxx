@@ -25,7 +25,6 @@ class Agent(object):
         old = self.q_matrix.get((str(state),action),"nfound")
         if  old == "nfound":
             self.environment.states_action_pair_count += 1
-#            print str(state)
         self.q_matrix[(str(state),action)] = value
 
     def set_e_value(self,key,value):

@@ -3,12 +3,12 @@ import math
 def sign(val):
     return cmp(val,0) or 1
 
-class ActionResolver(object): 
-    PASS_REWARD = -10
+class ActionResolver(object):
+    PASS_REWARD = -1
     MISSING_REWARD = -30
     TOWER_FELL_REWARD = -5000
-    HIT_REWARD = 1000
-    
+    HIT_REWARD = 2000
+
     @classmethod
     def create_for(cls, environment, action):
         from PassActionResolver import PassActionResolver
@@ -32,14 +32,19 @@ class ActionResolver(object):
 
         self.environment.crane_pos += self.environment.crane_direction
     
-    def move_tower(self):      
-        new_angle, new_vel = self.pendulus_move()        
+    def tower_fell(self):
+        angle = abs(math.degrees(self.environment.tower_angle))
+        res = angle >= 30
+        return res
+    
+    def move_tower(self):
+        new_angle, new_vel = self.pendulus_move()
         new_pos = self.next_tower_pos(new_angle)
-        
+
         self.environment.tower_angle = new_angle
         self.environment.tower_vel = new_vel
         self.environment.tower_pos = new_pos
-    
+
     def next_tower_pos(self, angle):
         #Trigonometria (SOH-CAH-TOA) :)
         distance_from_zero = math.tan(angle) * self.environment.tower_height #TAN * ADYACENTE
@@ -52,8 +57,8 @@ class ActionResolver(object):
         old_omega = self.environment.tower_vel#angular velocity
         gravity = 9.8 #g
         height = float(self.environment.tower_height)#l
-        
+
         omega = old_omega - delta_time*gravity/height*math.sin(old_theta)
         theta = old_theta + delta_time * old_omega
-        
+
         return theta, omega

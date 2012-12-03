@@ -3,6 +3,12 @@ import math
 from ActionResolver.ActionResolver import *
 from state import *
 
+def far_from_cero(f):
+    if f<0:
+        return int(math.floor(f))
+    else:
+        return int(math.ceil(f))
+
 class Environment(object):
 
     THROW = 1
@@ -12,6 +18,17 @@ class Environment(object):
     
     POSITION_BOUND = 49
 
+    def __str__(self):
+        factors = self.discretized_factors()
+        return "TP {0}\tTV {1}\tCP {2}\tCD {3}".format(*factors)
+    
+    def discretized_factors(self):
+        tower_pos = int(round(self.tower_pos))
+        tower_vel = far_from_cero(self.tower_vel)
+        crane_pos = self.crane_pos
+        crane_dir = self.crane_direction
+        return tower_pos, tower_vel, crane_pos, crane_dir
+    
     def initialize(self):
         self.crane_direction = self.args.get('crane_dir') or 1 
         self.crane_pos = self.args.get('crane_pos') or self.INITIAL_CRANE_POS

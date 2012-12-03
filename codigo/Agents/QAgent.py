@@ -32,7 +32,4 @@ class QAgent(Agent):
             rewards += reward
             movements += 1
         return rewards        
-        #f = open("datos_rewards.txt","a")
-        #f.write(str(rewards)+"\n")
-        #f.close()
         
