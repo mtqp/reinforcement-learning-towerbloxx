@@ -195,20 +195,37 @@ Luego de estos experimentos fijamos el piso desde el cual se comienza en 50.
 
 \subsection{Resultados}
 
+Los siguientes resultados son en base a corridas en donde los refuerzos eran los siguientes:
+\begin{itemize}
+\item Refuerzo por pasar = -1
+\item Refuerzo por tirar y no golpear a la torre = -30
+\item Refuerzo por pegarle a la torre y lograr que se caiga = -5000
+\item Refuerzo por tiro exitoso (golpe\'o la torre y se agreg\'o un nuevo piso) = 2000
+\end{itemize}
+
 \includegraphics[scale=0.6]{Graficos/estabilidadesQ}
+Como se puede ver en este primer resultado, a medida que el piso desde donde arranca a jugar aumenta, la dificultad disminuye, esto es adecuado ya que el p\'endulo que modelamos funciona de esa manera.
 
 \includegraphics[scale=0.6]{Graficos/estabilidadesS}
+Con \slambda ocurre algo similar, aunque con una mayor variabilidad, en especial si se juega desde el piso 50. En este resultado podemos observar un comportamiento extran\~o del algoritmo, en el cual parece haberle dado importancia a una acci\'on erronea luego de haber obtenido buenos resultados (ver S50)
+
+\newpage
+Recordar que los pr\'oximos resultados se obtuvieron jugando a partir del piso 50 y hasta lograr 20 pisos.
 
 \includegraphics[scale=0.6]{Graficos/QvsS}
+El comportamiento de los algoritmos en este caso fue un poco ca\'otico, en especial Sarsa con $\lambda$ = 0.03, en donde se alcanzo el valor optimo durante un tiempo, pero luego volvi\'o a bajar a la mitad. Por otro lado, Q-Learning se mantuvo con muy buenos resultados. 
 
 \includegraphics[scale=0.6]{Graficos/epsilonsQ}
+En este experimento, se ve que mientras epsilon es mas chico, funciona mejor (con resultados muy parecidos para epsilons muy chicos). Esto puede deberse a la esencia del problema, el cual parece funcionar bien con algoritmos semi-golosos, en donde un poco de aleatoriedad ayuda, pero en cantidades mas grandes parece perjudicar. Creemos que esto tiene que ver con la forma del problema en donde una vez que se consigue agregar un bloque, conviene seguir prestando atenci\'on al mismo tipo de estados, y no investigar nuevos. 
 
 \includegraphics[scale=0.6]{Graficos/gammasQ}
+En este ejemplo, y dados los resultados anteriores (en donde parece que un algoritmo goloso es la mejor soluci\'on) vemos que los cambios en $\gamma$ no afectan al resultado.
 
 \includegraphics[scale=0.6]{Graficos/alphasQ}
+Al igual que el ejemplo anterior, el factor $\alpha$  no afecta en gran medida, excepto cuando el 0, lo cual tiene sentido ya que un $\alpha$ tendiendo a cero significa no darle importancia al aprendizaje calculado. 
 
 \subsection{Conclusiones}
-Luego de analizar los resultados, llegamos a la conclusi\'on de que resulto f\'acil para el agente implementado usando Q-Lerning encontrar soluciones al problema cuando la estabilidad del edificio
+Luego de analizar los resultados, llegamos a la conclusi\'on de que resulto f\'acil para el agente implementado usando Q-Lerning encontrar soluciones al problema cuando la estabilidad del edificio ayuda, ya que el problema parece solucionarse de buena manera con algoritmos Golosos. 
 
 \newpage
 
