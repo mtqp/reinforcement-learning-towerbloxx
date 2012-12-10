@@ -53,12 +53,15 @@ Para este trabajo, se utilizo una versi\'on simplificada del Tower Blocks, el cu
 Ya que el juego tiene una gran variedad de niveles, se opto por un modelo simple en el cual tenemos que agregar pisos (bloques) a un edificio intentando llegar a una cierta cantidad y sin haber hecho que se derrumbe. Para ello existe una gr\'ua que se mueve de manera \textbf{constante} sobre el edificio y nos permite ejecutar la acci\'on de tirar o no tirar.
 
 \section{Ambiente}
-Para la implementaci\'on del ambiente
-La grúa es un objeto que tiene un movimiento lineal entre dos posiciones (en este caso -49 y +49), a velocidad constante (1) se mueve en una u otra dirección, de donde se tirará el nuevo piso a agregar. 
+En esta etapa se implementaron todos los objetos necesarios para que el ambiente sea lo más similar al juego real. Estos objetos son:
 
-Por otro lado, el edificio, posee un movimiento pendular que va variando en velocidad de acuerdo a que tan desbalanceado est\'a, debido a los tiros previos del jugador, por otro lado, también depende de la altura de la torre. Por la forma en que lo modelamos, a mayor altura, mayor estabilidad.
+\begin{itemize}
+\item Una grúa que tiene un movimiento lineal entre dos posiciones (en este caso -49 y +49), a velocidad constante (1). Se mueve en ambas direcciones (izquierda y derecha). Es la encargada de sostener los pisos que se van a ir agregando al edificio. El agente le dará la orden de sostener o tirar el piso en un momento dado. 
 
-El ambiente, mantiene un estado visible para el exterior que contiene, la posici\'on y velocidad de la torre, y adem\'as, la posici\'on y direcci\'on de la gr\'ua. 
+\item Un edificio que posee un movimiento pendular que va variando en velocidad de acuerdo a que tan desbalanceado est\'a. El desbalanceo está dado por que tan cerca o lejos del centro del edificio fueron cayendo los pisos arrojados por el agente desde la grúa. Por la forma en que lo modelamos, cuanto más alto sea el edificio, mayor estabilidad tendrá y por lo tanto será más difícil que se derrumbe.
+\end{itemize}
+
+El ambiente, mantiene un estado visible para el exterior que contiene la posici\'on y velocidad de la torre y adem\'as, la posici\'on y direcci\'on de la gr\'ua. 
 
 Dados los parametros que mantiene el ambiente, la cantidad de estados est\'a dada por:
 $$ \#estados = \#posiciones\_grua * \#direcciones\_grua * \#posiciones\_torre *  \#velocidades\_torre  $$
